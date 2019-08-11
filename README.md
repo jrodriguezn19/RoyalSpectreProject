@@ -31,7 +31,12 @@
 
 **Team Member Roles**
 
-Jayden: PM & Back-end
-Ivan: Front-end & UI designer
-Kosh: Design, Front-End, & Back-End floater
-George: TBA
+ - Jayden: PM & Back-end
+ - Ivan: Front-end & UI designer
+ - Kosh: Design, Front-End, & Back-End floater
+ - George: TBA
+
+**Git Protocols**
+
+ - Branch early and often
+ - Let the team know on trello discussion card what you're working on and when ; https://trello.com/b/J3xMvp6v/royal-spectre-assignment-3
