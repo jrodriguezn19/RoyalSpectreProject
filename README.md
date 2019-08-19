@@ -33,8 +33,8 @@
 
  - Jayden: PM & Back-end
  - Ivan: Front-end & UI designer
- - Kosh: Design, Front-End, & Back-End floater
- - George: TBA
+ - Yogesh: Front-end/Back-end developer
+ - George: Front-end/Back-end developer
 
 **Git Protocols**
 
