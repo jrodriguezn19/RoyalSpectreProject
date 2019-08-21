@@ -9,6 +9,8 @@ import { ProjectDetailComponent } from './project-detail/project-detail.componen
 import { from } from 'rxjs';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
+import { TopMenuComponent } from './top-menu/top-menu.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { ProfileComponent } from './profile/profile.component';
     MainMenuComponent,
     ProjectDetailComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    TopMenuComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
