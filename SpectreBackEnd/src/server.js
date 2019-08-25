@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 // Dependencies
 const express = require('express');
 const mongoose = require('mongoose');
@@ -13,9 +15,9 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
 // Routes
-app.use('/', require('./routes/api'));
+app.use('/', require('../routes/api'));
 
 // Start Server
-app.listen(8000, () => {
-    console.log('Example app listening on port 8000!')
+app.listen(process.env.PORT, () => {
+    console.log('Example app listening on port' , process.env.PORT)
     });
