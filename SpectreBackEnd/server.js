@@ -14,11 +14,6 @@ const {deleteProfile, updateProfile} = require('./database/profiles');
 // define Express app
 const app = express();
 
-// define an array to work as the database (temporary solution)
-const profile = [
-   {name: 'Kevin Lee'}
-];
-
 // add Helmet to enhance the API security
 app.use(helmet());
 
