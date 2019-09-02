@@ -74,6 +74,7 @@ app.put('/:id', async (req, res) => {
 // start the in-memory MongoDB instance
 startDatabase().then(async () => {
    await insertProfile({title: 'Hello new profile from the in-memory database'});
+   console.log('--start database object created!--')
 })
 
 // start the server and log console
