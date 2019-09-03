@@ -29,6 +29,13 @@ const {insertProfile, getProfile, deleteProfile, updateProfile} = require('./dat
 //Re-instate this line if required - runs insert profile
 //const {deleteProfile, updateProfile} = require('./database/profiles');
 
+// add function to allow pass the cross-origin
+app.use(function(req, res, next){
+   res.header("Access-Control-Allow-Origin", "*");
+   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+   next();
+})
+
 // define Express app
 const app = express();
 
