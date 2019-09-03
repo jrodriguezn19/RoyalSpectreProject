@@ -25,9 +25,30 @@
 - Sorting through 'most Nods'
 - Thread-like or feed-like structure which is updated on a single page application (SPA)
 
-**Questions to answer**
+**Key principles of code style**
 
-- Is React or Angular best suited to create an SPA like this?
+- Modular code: separate key parts into separate directories which export modules back to the 'server.js'
+- Clean and commented code: readability of everyone in the team and all those who wish to audit
+- Proper indentation for readability
+- Branch, pull, and push often enough so we are all working on the cleanest up to date code
+- Remove all redundant code which may be commented out. Either use it or delete it
+- Outsouce functionality where practical: authorisation methods, fetch, bootstrap, etc
+- Keep things as simple and clean as possible. Readability and simplicity are better than fancy code
+- Don't repeat code. Where possible clean up any duplicate items and instanciate/reference once
+- Maintain proper scope. If a variable is only needed in a function it should be instanciated with proper scope inside
+- Single responsibility: Every module should only have one specific purpose/functionality
+- Refactor each code module 2 or 3 times before finalisation. It is likely the first time it is written is not the best (maybe it is though!)
+- Where possible implement promises and generators: i.e. implementation of ECMAScript6 libraries.
+- Plan new features end-to-end before coding
+- Use proper naming conventions: e.g. getUser(), function createUser()
+- Implement new constructor convention, EC6 syntax: Class Person { constructor(name) { this.name = name;}}
+
+**How to install/run the app**
+
+- Right now you can run the front-end and back-end on separate servers.
+- Front-End: `git pull`  >  `cd SpectreFrontEnd`  >  `npm install`  >  `ng serve` == Server should now be running for Front-end
+- Back-End: `git pull`  >  `cd SpectreBackEnd`  >  `npm install`  >  `npm run devstart` == Server should now be running for Back-end
+- HTTP requests/Using Restful API: Open up postman  > run get, post, put, delete as you will. NB: authorisation token required to run post, put, and delete requests. Access new token here: https://manage.auth0.com/dashboard/au/dev-q39f5c5h/apis/5d6b220375c40e076d471d4d/test
 
 **Team Member Roles**
 
