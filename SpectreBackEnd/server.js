@@ -8,33 +8,9 @@ const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const mongoose = require('mongoose');
 
-//----------------------------
-
-//mongodb connection to MongoDB Atlas (DB as a service) - Default connections
-var mongoDB = 'mongodb://127.0.0.1/my_database';
-mongoose.connect(mongoDB, { useNewUrlParser: true});
-
-//Get the default connection
-var db = mongoose.connection;
-
-//bind connection to error event (error notifications)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-//-----------------------------
-
-
 //In-memory instance of database
 const {startDatabase} = require('./database/mongo');
 const {insertProfile, getProfile, deleteProfile, updateProfile} = require('./database/profiles');
-//Re-instate this line if required - runs insert profile
-//const {deleteProfile, updateProfile} = require('./database/profiles');
-
-// add function to allow pass the cross-origin
-app.use(function(req, res, next){
-   res.header("Access-Control-Allow-Origin", "*");
-   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-   next();
-})
 
 // define Express app
 const app = express();
