@@ -11,6 +11,13 @@ const {startDatabase} = require('./database/mongo');
 const {insertProfile, getProfile} = require('./database/profiles');
 const {deleteProfile, updateProfile} = require('./database/profiles');
 
+// add function to allow pass the cross-origin
+app.use(function(req, res, next){
+   res.header("Access-Control-Allow-Origin", "*");
+   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+   next();
+})
+
 // define Express app
 const app = express();
 
