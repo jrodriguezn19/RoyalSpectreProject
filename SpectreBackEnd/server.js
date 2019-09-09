@@ -32,6 +32,14 @@ app.get('/', async (req, res) => {
    res.send(await getProfile());
 });
 
+//Login
+app.post('/login', async (req, res) => {
+   //var email = req.userEmail;
+   //var password = req.userPassword;
+   console.log(req.body);
+   res.send({ message: 'logined'});
+})
+
 // check JSON Web Tokens
 //JWT [Only checked for POST, DELETE, PUT endpoint. No authority required for GET request of this app to view]
 //JWT will intercept requests to POST, DELETE, and PUT endpoints
@@ -48,14 +56,6 @@ const jwtCheck = jwt({
 })
 
 //app.use(jwtCheck);
-
-//Login
-app.post('/login', async (req, res) => {
-   //var email = req.userEmail;
-   //var password = req.userPassword;
-   console.log(req.body);
-   res.send({ message: 'logined'});
-})
 
 // POST, DELETE, PUT, startDatabase
 app.post('/', async (req, res) => {
