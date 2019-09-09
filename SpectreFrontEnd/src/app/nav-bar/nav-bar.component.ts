@@ -17,8 +17,19 @@ export class NavBarComponent implements OnInit {
   }
   enteredEmail = '';
   enteredPassword = '';
+  confirmPassword = '';
+
   login(){
     axios.post('http://localhost:8000/login' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
+    .then(function (response) {
+      console.log(response.data['message']);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  register(){
+    axios.post('http://localhost:8000/register' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
     .then(function (response) {
       console.log(response.data['message']);
     })
