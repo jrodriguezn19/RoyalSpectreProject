@@ -27,6 +27,12 @@ app.use(cors());
 // add Morgan to log HTTP requests
 app.use(morgan('combined'));
 
+// Serve the front-end
+/*app.get('/', (req,res => {
+   res.sendFile('index.html', {root: '../SpectreFrontEnd/src'});
+}));*/
+
+
 // define an endpoint to return all profiles
 app.get('/', async (req, res) => {
    res.send(await getProfile());
@@ -52,7 +58,8 @@ app.use(jwtCheck);
 // POST, DELETE, PUT, startDatabase
 app.post('/', async (req, res) => {
    const newProfile = req.body;
-   await insertProfile(newProfile);
+   const testProfile = {Name: 'Ivan', email: 'exampleEmail@email.com', password: 'spectre'};
+   await insertProfile(testProfile);
    res.send({ message: 'New profile inserted.'});
 });
 
@@ -69,7 +76,7 @@ app.put('/:id', async (req, res) => {
 
 // start the in-memory MongoDB instance
 startDatabase().then(async () => {
-   await insertProfile({title: 'Hello new profile from the in-memory database'});
+   await insertProfile({Name: 'Jayden P (first in DB)', email: 'exampleEmail@email.com', password: 'spectre' });
    console.log('--start database object created!--')
 })
 
