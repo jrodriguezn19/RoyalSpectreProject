@@ -60,7 +60,8 @@ app.post('/login', async (req, res) => {
 // POST, DELETE, PUT, startDatabase
 app.post('/', async (req, res) => {
    const newProfile = req.body;
-   await insertProfile(newProfile);
+   const testProfile = {Name: 'Ivan', email: 'exampleEmail@email.com', password: 'spectre'};
+   await insertProfile(testProfile);
    res.send({ message: 'New profile inserted.'});
 });
 
@@ -77,7 +78,7 @@ app.put('/:id', async (req, res) => {
 
 // start the in-memory MongoDB instance
 startDatabase().then(async () => {
-   await insertProfile({title: 'Hello new profile from the in-memory database'});
+   await insertProfile({Name: 'Jayden P (first in DB)', email: 'exampleEmail@email.com', password: 'spectre' });
    console.log('--start database object created!--')
 })
 
