@@ -72,21 +72,21 @@
 
             <div class="form-group">
               <label for="email" class="col-form-label">email:</label>
-              <input #emailReg type="email" class="form-control">
+              <input [(ngModel)] = "enteredEmail" [ngModelOptions]="{standalone: true}" type="email" class="form-control">
             </div>
             <div class="form-group">
               <label for="password" class="col-form-label">password:</label>
-              <input #passwordReg type="password" class="form-control">
+              <input [(ngModel)] = "enteredPassword" [ngModelOptions]="{standalone: true}" type="password" class="form-control">
             </div>
             <div class="form-group">
               <label for="password" class="col-form-label">confirm password:</label>
-              <input #cPasswordReg type="password" class="form-control">
+              <input [(ngModel)] = "confirmPassword" [ngModelOptions]="{standalone: true}" type="password" class="form-control">
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <span (click)="login(email.value, password.value)" class="btn btn-primary">Register</span>
+          <span (click)="register()" class="btn btn-primary">Register</span>
         </div>
       </div>
     </div>
