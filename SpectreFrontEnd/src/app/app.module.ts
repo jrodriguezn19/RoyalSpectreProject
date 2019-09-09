@@ -7,6 +7,7 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { from } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TopMenuComponent } from './top-menu/top-menu.component';
@@ -29,7 +30,8 @@ import { HttpClientModule }    from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

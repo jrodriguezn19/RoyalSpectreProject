@@ -47,7 +47,15 @@ const jwtCheck = jwt({
    algorithms: ['RS256']
 })
 
-app.use(jwtCheck);
+//app.use(jwtCheck);
+
+//Login
+app.post('/login', async (req, res) => {
+   //var email = req.userEmail;
+   //var password = req.userPassword;
+   console.log(req.body);
+   res.send({ message: 'logined'});
+})
 
 // POST, DELETE, PUT, startDatabase
 app.post('/', async (req, res) => {

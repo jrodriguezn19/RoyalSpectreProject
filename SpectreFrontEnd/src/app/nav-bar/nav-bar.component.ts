@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { post } from 'selenium-webdriver/http';
-import { HttpClient } from '@angular/common/http';
+import  axios  from 'axios';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,15 +8,23 @@ import { HttpClient } from '@angular/common/http';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor(private http: HttpClient) { 
+  constructor() { 
     
   }
 
   ngOnInit() {
-    
+   
   }
-  login(email, password){
-    this.http.post('localhost:8000/login', {userEmail: email, userPassword: password});
+  enteredEmail = '';
+  enteredPassword = '';
+  login(){
+    axios.post('http://localhost:8000/login' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
+    .then(function (response) {
+      console.log(response.data['message']);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
 }

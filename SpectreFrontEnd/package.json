@@ -19,9 +19,12 @@
     "@angular/platform-browser": "~8.2.0",
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
+    "@auth0/auth0-spa-js": "^1.2.3",
+    "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
     "rxjs": "~6.4.0",
+    "satellizer": "^0.15.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

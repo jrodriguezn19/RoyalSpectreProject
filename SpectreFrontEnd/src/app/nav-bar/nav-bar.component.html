@@ -1,5 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+      aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
@@ -11,19 +13,19 @@
           <a class="nav-link" href="#">Spectre</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Popular</a>
-          </li>
-          <li>
-            <a class="nav-link" data-toggle="modal" data-target="#login">Login</a>
-          </li>
+          <a class="nav-link" href="#">Popular</a>
+        </li>
+        <li>
+          <a class="nav-link" data-toggle="modal" data-target="#login">Login</a>
+        </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
       </form>
-  </div>
-</nav>
-<div class="modal fade" id="login" tabindex="-1" aria-hidden="true">
+    </div>
+  </nav>
+  <div class="modal fade" id="login" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content ">
         <div class="modal-header ">
@@ -33,23 +35,59 @@
           </button>
         </div>
         <div class="modal-body">
-          <form name="login" ng-submit="auth.login()">
-              
+          <form name="login">
+
             <div class="form-group">
               <label for="email" class="col-form-label">email:</label>
-              <input #email type="email" class="form-control" ng-model="auth.user.email">
+              <input [(ngModel)]="enteredEmail" [ngModelOptions]="{standalone: true}" type="email" class="form-control">
             </div>
             <div class="form-group">
               <label for="password" class="col-form-label">password:</label>
-              <input #password type="password" class="form-control" ng-model="auth.user.password">
+              <input [(ngModel)]="enteredPassword" [ngModelOptions]="{standalone: true}" type="password" class="form-control">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <span (click)="login(email.value, password.value)" class="btn btn-primary">Login</span>
+          <button type="button" data-toggle="modal" data-target="#register" class="btn btn-secondary"
+            data-dismiss="modal">Register</button>
+          <span (click)="login()" class="btn btn-primary">Login</span>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- REGISTER FORM
+  -->
+  <div class="modal fade" id="register" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content ">
+        <div class="modal-header ">
+          <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form name="login" ng-submit="auth.login()">
+
+            <div class="form-group">
+              <label for="email" class="col-form-label">email:</label>
+              <input #emailReg type="email" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-form-label">password:</label>
+              <input #passwordReg type="password" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-form-label">confirm password:</label>
+              <input #cPasswordReg type="password" class="form-control">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <span (click)="login(email.value, password.value)" class="btn btn-primary">Register</span>
+        </div>
+      </div>
+    </div>
+  </div>
