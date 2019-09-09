@@ -27,12 +27,6 @@ app.use(cors());
 // add Morgan to log HTTP requests
 app.use(morgan('combined'));
 
-// Serve the front-end
-/*app.get('/', (req,res => {
-   res.sendFile('index.html', {root: '../SpectreFrontEnd/src'});
-}));*/
-
-
 // define an endpoint to return all profiles
 app.get('/', async (req, res) => {
    res.send(await getProfile());
