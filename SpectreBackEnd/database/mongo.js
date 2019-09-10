@@ -15,7 +15,14 @@ async function getDatabase(){
     return database;
 }
 
+//get profile to be made working!!
+async function getProfile(email, password){
+    if(!database) await startDatabase();
+
+}
+
 module.exports = {
     getDatabase,
     startDatabase,
+    getProfile,
 };

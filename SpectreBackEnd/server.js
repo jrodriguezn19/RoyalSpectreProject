@@ -32,21 +32,19 @@ app.get('/', async (req, res) => {
    res.send(await getProfile());
 });
 
-//Login
+//Register Profile
+app.post('/register', async (req, res) => {
+   const newProfile = req.body;
+   await insertProfile(newProfile);
+   res.send({ message: 'New profile inserted.'});
+});
+
+//Login Profile
 app.post('/login', async (req, res) => {
-   //var email = req.userEmail;
-   //var password = req.userPassword;
    console.log(req.body);
    res.send(await getProfile());
    res.send({ message: 'logged in - ok'});
 })
-
-app.post('/register', async (req, res) => {
-   const newProfile = req.body;
-   const testProfile = {Name: 'Ivan', email: 'exampleEmail@email.com', password: 'spectre'};
-   await insertProfile(newProfile);
-   res.send({ message: 'New profile inserted.'});
-});
 
 // check JSON Web Tokens
 //JWT [Only checked for POST, DELETE, PUT endpoint. No authority required for GET request of this app to view]
