@@ -9,6 +9,9 @@ import * as AOS from 'aos';
 export class AppComponent {
   title = 'Spectre';
   ngOnInit(){
-    AOS.init();
+    AOS.init({
+      offset:200,
+      duration: 1000
+    });
   }
 }
