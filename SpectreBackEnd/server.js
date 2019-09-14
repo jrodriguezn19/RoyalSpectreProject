@@ -27,6 +27,7 @@ app.use(cors());
 // add Morgan to log HTTP requests
 app.use(morgan('combined'));
 
+
 // define an endpoint to return all profiles
 app.get('/', async (req, res) => {
    res.send(await getProfile());
@@ -46,6 +47,12 @@ app.post('/login', async (req, res) => {
    res.send({ message: 'logged in - ok'});
 })
 
+// Set up Auth0 configuration
+const authConfig = {
+   domain: "dev-q39f5c5h.au.auth0.com",
+   audience: "https://profiles-api"
+};
+
 // check JSON Web Tokens
 //JWT [Only checked for POST, DELETE, PUT endpoint. No authority required for GET request of this app to view]
 //JWT will intercept requests to POST, DELETE, and PUT endpoints
@@ -54,20 +61,36 @@ const jwtCheck = jwt({
       cache: true,
       rateLimit: true,
       jwksRequestsPerMinute: 5,
-      jwksUri:'https://dev-q39f5c5h.au.auth0.com/.well-known/jwks.json'
+      jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
+      //jwksUri:'https://dev-q39f5c5h.au.auth0.com/.well-known/jwks.json'
    }),
+   audience: authConfig.audience,
+   issuer: `https://${authConfig.domain}/`,
+   algorithm: ["RS256"]
+
+   /*
    audience: 'https://profiles-api',
    issuer: 'https://dev-q39f5c5h.au.auth0.com/',
    algorithms: ['RS256']
-})
+   */
+});
 
-//app.use(jwtCheck);
+// Define and endpoint that must be called with an access token
+app.get("/api/external", jwtCheck, (req, res) => {
+   res.send({
+      msg: "Your Access Token was successfully validated!"
+   });
+});
+
+
+
+app.use(jwtCheck);
 
 // POST, DELETE, PUT, startDatabase
 app.post('/', async (req, res) => {
    const newProfile = req.body;
    const testProfile = {Name: 'Ivan', email: 'exampleEmail@email.com', password: 'spectre'};
-   await insertProfile(nestProfile);
+   await insertProfile(newProfile);
    res.send({ message: 'New profile inserted.'});
 });
 

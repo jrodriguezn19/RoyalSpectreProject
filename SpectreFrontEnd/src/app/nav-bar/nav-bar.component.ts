@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import  axios  from 'axios';
+import createAuth0Client from '@auth0/auth0-spa-js';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,7 +10,7 @@ import  axios  from 'axios';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor() { 
+  constructor(public auth: AuthService) { 
     
   }
 

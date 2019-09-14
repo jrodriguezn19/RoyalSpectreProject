@@ -1,8 +1,15 @@
+<pre *ngIf="auth.userProfile$ | async as profile">
+<code>{{ profile | json }}</code>
+</pre>
+
+
+
 <div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
+    <img src="..." class="card-img-top" alt=" [ Profile Picture Here ]">
     <div class="card-body">
-      <h5 class="card-title">Card title</h5>
+      <h5 class="card-title"> Nickname </h5>
       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+      <a routerLink="project-detail" class="btn btn-primary">Project Detail</a>
+      
     </div>
-  </div>
+</div>
