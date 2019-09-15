@@ -11,28 +11,32 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
+        <br>
         <a class="nav-link" routerLink="/">Spectre</a>
       </li>
       <li class="nav-item">
+        <br>
         <a class="nav-link" href="#">Popular</a>
       </li>
-      <li>
-        <a class="nav-link"  (click)="auth.login()" *ngIf="!auth.loggedIn">Login/Sign Up</a>&nbsp;
-        <a class="nav-link"  (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a>&nbsp;
+      <li class="nav-item">
+        <br>
+        <a class="nav-link" routerLink="" (click)="auth.login()" *ngIf="!auth.loggedIn">Login/Sign up</a>
+        <a class="nav-link" routerLink="" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a>&nbsp;
       </li>
-      <li>
-        <a class="nav-link" routerLink="external-api" *ngIf="!auth.loggedIn">External API</a>
+      <li class="nav-item">
+        <br>
+        <a class="nav-link" routerLink="external-api" *ngIf="auth.loggedIn">Post</a>
       </li>
     </ul>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li>
         <a class="nav-link" *ngIf="!auth.loggedIn"> 
-          <img src="../assets/images/logo2.png" width="50" height="50" alt="">
+          <img src="../assets/images/logo2.png" width="60" height="45" alt="">
           You Are Anonymous
         </a>
         <a routerLink="profile" *ngIf="auth.loggedIn">
-            <img src="../assets/images/logo2.png" width="50" height="50" alt="">
-            Profile
+            <img src="../assets/images/logo2.png" width="60" height="45" alt="">
+            Profile Page
         </a>
       </li>
     </ul>

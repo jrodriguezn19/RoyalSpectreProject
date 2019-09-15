@@ -27,26 +27,6 @@ app.use(cors());
 // add Morgan to log HTTP requests
 app.use(morgan('combined'));
 
-
-// define an endpoint to return all profiles
-app.get('/', async (req, res) => {
-   res.send(await getProfile());
-});
-
-//Register Profile
-app.post('/register', async (req, res) => {
-   const newProfile = req.body;
-   await insertProfile(newProfile);
-   res.send({ message: 'New profile inserted.'});
-});
-
-//Login Profile
-app.post('/login', async (req, res) => {
-   console.log(req.body);
-   res.send(await getProfile());
-   res.send({ message: 'logged in - ok'});
-})
-
 // Set up Auth0 configuration
 const authConfig = {
    domain: "dev-q39f5c5h.au.auth0.com",
@@ -54,8 +34,8 @@ const authConfig = {
 };
 
 // check JSON Web Tokens
-//JWT [Only checked for POST, DELETE, PUT endpoint. No authority required for GET request of this app to view]
-//JWT will intercept requests to POST, DELETE, and PUT endpoints
+// JWT [Only checked for POST, DELETE, PUT endpoint. No authority required for GET request of this app to view]
+// JWT will intercept requests to POST, DELETE, and PUT endpoints
 const jwtCheck = jwt({
    secret: jwksRsa.expressJwtSecret({
       cache: true,
@@ -78,28 +58,48 @@ const jwtCheck = jwt({
 // Define and endpoint that must be called with an access token
 app.get("/api/external", jwtCheck, (req, res) => {
    res.send({
-      msg: "Your Access Token was successfully validated!"
+      msg: "Your Access Token was successfully validated!you can do anything here - add user to the db?",
+      
    });
 });
 
+// Only use to blanket check jwt for all code below. Currently jwtCheck captured in each HTTP request
+//app.use(jwtCheck);
 
+// define an endpoint to return all profiles
+app.get('/', async (req, res) => {
+   res.send(await getProfile());
+});
 
-app.use(jwtCheck);
-
-// POST, DELETE, PUT, startDatabase
-app.post('/', async (req, res) => {
+//Register Profile
+app.post('/register', async (req, res) => {
    const newProfile = req.body;
-   const testProfile = {Name: 'Ivan', email: 'exampleEmail@email.com', password: 'spectre'};
    await insertProfile(newProfile);
    res.send({ message: 'New profile inserted.'});
 });
 
-app.delete('/:id', async (req, res) => {
+//Login Profile
+app.post('/login', async (req, res) => {
+   console.log(req.body);
+   res.send(await getProfile());
+   res.send({ message: 'logged in - ok'});
+})
+
+
+// POST, DELETE, PUT, startDatabase
+app.post('/', jwtCheck, async (req, res) => {
+   const newProfile = req.body;
+   const testProfile = {Name: 'Ivan', email: 'exampleEmail@email.com', password: 'spectre'};
+   await insertProfile(testProfile);
+   res.send({ message: 'New profile inserted.'});
+});
+
+app.delete('/:id', jwtCheck, async (req, res) => {
    await deleteProfile(req.params.id);
    res.send({ message: 'Profile removed.' });
 });
 
-app.put('/:id', async (req, res) => {
+app.put('/:id', jwtCheck, async (req, res) => {
    const updatedProfile = req.body;
    await updateProfile(req.params.id, updatedProfile);
    res.send({ message: 'Profile updated.' });
