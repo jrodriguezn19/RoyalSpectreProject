@@ -18,4 +18,8 @@ export class MainMenuComponent implements OnInit {
     });
    }
 
+   onFileSelected(event){
+     console.log(event);
+   }
+
 }
