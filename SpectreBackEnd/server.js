@@ -42,7 +42,6 @@ const jwtCheck = jwt({
       rateLimit: true,
       jwksRequestsPerMinute: 5,
       jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
-      //jwksUri:'https://dev-q39f5c5h.au.auth0.com/.well-known/jwks.json'
    }),
    audience: authConfig.audience,
    issuer: `https://${authConfig.domain}/`,
