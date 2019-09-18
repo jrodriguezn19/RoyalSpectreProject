@@ -55,7 +55,7 @@ const jwtCheck = jwt({
    */
 });
 
-// Define and endpoint that must be called with an access token
+// PING : Define and endpoint that must be called with an access token
 app.get("/api/external", jwtCheck, (req, res) => {
    res.send({
       msg: "Your Access Token was successfully validated!you can do anything here - add user to the db?",
@@ -71,14 +71,14 @@ app.get('/', async (req, res) => {
    res.send(await getProfile());
 });
 
-//Register Profile
-app.post('/register', async (req, res) => {
+// Create new project
+app.post('/newProject', async (req, res) => {
    const newProfile = req.body;
    await insertProfile(newProfile);
-   res.send({ message: 'New profile inserted.'});
+   res.send({ message: 'New project inserted.'});
 });
 
-//Login Profile
+// Create new project
 app.post('/login', async (req, res) => {
    console.log(req.body);
    res.send(await getProfile());
