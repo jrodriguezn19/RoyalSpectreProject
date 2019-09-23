@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as AOS from 'aos';
+// Added by George
+import  {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-main-menu',
@@ -8,7 +10,7 @@ import * as AOS from 'aos';
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(){
     AOS.init({
@@ -18,8 +20,22 @@ export class MainMenuComponent implements OnInit {
     });
    }
 
+   selectedFile : File = null;
+
    onFileSelected(event){
      console.log(event);
+     this.selectedFile = <File>event.target.files[0];
+   }
+
+   onUpload(){
+     console.log("uploading");
+     const fd = new FormData();
+     fd.append('Testing', this.selectedFile, this.selectedFile.name);
+     this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd ).subscribe( res =>{
+        console.log("Uploaded finished"); 
+        console.log(res);
+     })
+
    }
 
 }
