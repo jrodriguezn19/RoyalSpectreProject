@@ -1,4 +1,39 @@
+
+<br>
+<form>
+    <div class="form-group">
+        <label for="exampleFormControlFile1">Image Upload (3 x maximum per day)</label>
+        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+      </div>
+    
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Project Name</label>
+      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="MyProjectName">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Project Phase</label>
+      <select class="form-control" id="exampleFormControlSelect1">
+        <option>Idea</option>
+        <option>Concept</option>
+        <option>Pre-Flight</option>
+        <option>Launched</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Project Description</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="An idea to keep my city growing"></textarea>
+    </div>
+    <br>
+<button (click)="postImage()">Submit</button>
+  </form>
+
+
+<br>
+<br>
+<p>----------------Testing Zone------------</p>
 <button (click)="pingApi()">Ping API</button>
+
+
 
 <pre *ngIf="responseJson">
 <code>{{ responseJson | json }}</code>

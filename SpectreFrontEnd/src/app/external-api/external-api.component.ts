@@ -14,6 +14,10 @@ export class ExternalApiComponent implements OnInit {
   ngOnInit() {
   }
 
+  postImage() {
+    
+  }
+
   pingApi() {
     this.api.ping$().subscribe(
       res => this.responseJson = res
