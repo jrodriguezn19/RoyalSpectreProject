@@ -46,21 +46,20 @@ const jwtCheck = jwt({
    audience: authConfig.audience,
    issuer: `https://${authConfig.domain}/`,
    algorithm: ["RS256"]
-
-   /*
-   audience: 'https://profiles-api',
-   issuer: 'https://dev-q39f5c5h.au.auth0.com/',
-   algorithms: ['RS256']
-   */
 });
 
 // PING : Define and endpoint that must be called with an access token
 app.get("/api/external", jwtCheck, (req, res) => {
    res.send({
-      msg: "Your Access Token was successfully validated!you can do anything here - add user to the db?",
+      msg: "Your Access Token was successfully validated! Lets upload an image or update a project?",
       
    });
 });
+
+// Upload an image into a project
+app.post("/imageUpload", jwtCheck, (req, res) => {
+
+})
 
 // Only use to blanket check jwt for all code below. Currently jwtCheck captured in each HTTP request
 //app.use(jwtCheck);
