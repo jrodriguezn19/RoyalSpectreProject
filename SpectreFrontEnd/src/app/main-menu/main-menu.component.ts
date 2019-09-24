@@ -8,7 +8,6 @@ import * as AOS from 'aos';
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor() { }
 
   ngOnInit(){
     AOS.init({
@@ -17,9 +16,4 @@ export class MainMenuComponent implements OnInit {
       duration: 1000 // values from 0 to 3000, with step 50ms
     });
    }
-
-   onFileSelected(event){
-     console.log(event);
-   }
-
 }
