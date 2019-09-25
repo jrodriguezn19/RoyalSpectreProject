@@ -38,8 +38,8 @@ export class ExternalApiComponent implements OnInit {
     const fd = new FormData();
     fd.append('Testing', this.selectedFile, this.selectedFile.name);
     this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd ).subscribe( res =>{
-       console.log("Uploaded finished"); 
        console.log(res);
+       alert("Upload finished");
     })
 
   }
