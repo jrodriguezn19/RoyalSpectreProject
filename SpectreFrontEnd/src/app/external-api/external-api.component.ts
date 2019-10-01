@@ -33,6 +33,8 @@ export class ExternalApiComponent implements OnInit {
     );
   }
 
+  // This code is based on an tutorial from "Academind" on Youtube
+  // See https://www.youtube.com/watch?v=YkvqLNcJz3Y
   selectedFile : File = null;
 
   onFileSelected(event){
@@ -42,11 +44,12 @@ export class ExternalApiComponent implements OnInit {
 
   onUpload(){
     console.log("uploading");
-    const fd = new FormData();
+    const fd = new FormData();   
     fd.append('Testing', this.selectedFile, this.selectedFile.name);
     this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd ).subscribe( res =>{
        console.log(res);
-       alert("Upload finished");
+       alert("Upload Completed");
+
     })
 
   }
