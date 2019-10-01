@@ -33,7 +33,7 @@ export class ExternalApiComponent implements OnInit {
     );
   }
 
-  // This code is based on an tutorial from "Academind" on Youtube.com
+  // This code is based on an tutorial from the user "Academind" on Youtube.com
   // See https://www.youtube.com/watch?v=YkvqLNcJz3Y
   selectedFile : File = null;
 
