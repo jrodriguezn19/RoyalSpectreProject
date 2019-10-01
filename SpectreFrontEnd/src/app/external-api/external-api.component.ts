@@ -17,7 +17,14 @@ export class ExternalApiComponent implements OnInit {
   }
 
   postImage() {
-    
+    console.log("uploading");
+    const fd = new FormData();
+    fd.append('Testing', this.selectedFile, this.selectedFile.name);
+    this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd ).subscribe( res =>{
+       console.log(res);
+       alert("Post Complete");
+    })
+
   }
 
   pingApi() {
