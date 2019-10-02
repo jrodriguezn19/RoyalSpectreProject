@@ -74,8 +74,25 @@
     </div>
 
     <pre *ngIf="auth.userProfile$ | async as profile">
-        <code>{{ profile | json }}</code>
+        {{ profile.sub | json }}
+        <input [(ngModel)]="id_user" [ngModelOptions]="{standalone: true}" class="form-control"  ng-init="id_user ='can you see me'">
     </pre>
+
+    <div class="form-group">
+      <label for="target_fund" class="col-form-label">Target Fund:</label>
+      <input [(ngModel)]="target_fund" [ngModelOptions]="{standalone: true}" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="status" class="col-form-label">Status: </label>
+      <input [(ngModel)]="status" [ngModelOptions]="{standalone: true}" class="form-control">
+    </div>
+    <div class="form-group">
+      
+      <label class="col-form-label">Choose Image</label>
+      <input type="file" class="form-control" (change)="onFileSelected($event)">
+    </div>
+    <span (click)="CreateProject()" class="btn btn-primary">Create Project</span>
+   
 
     <!-- Modal new project form-->
 

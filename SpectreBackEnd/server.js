@@ -12,6 +12,18 @@ const mongoose = require('mongoose');
 const {startDatabase} = require('./database/mongo');
 const {insertProfile, getProfile, deleteProfile, updateProfile} = require('./database/profiles');
 
+const Projects = require('./model/projects');
+const Images = require('./model/images');
+const Comments = require('./model/comments');
+
+//Connect to database in cloud
+mongoose.connect("mongodb+srv://Ivan:ProjectSpectre@spectre-h7vto.mongodb.net/Spectre?retryWrites=true&w=majority")
+.then(() => {
+   console.log("Connected to cloud database");
+})
+.catch(() => {
+   console.log("Failed to connect");
+});
 // define Express app
 const app = express();
 
@@ -69,6 +81,49 @@ app.get('/', async (req, res) => {
    res.send(await getProfile());
 });
 
+//Create New Project Ivan
+app.post('/createProject', async (req, res) => {
+   
+   const project = new Projects({
+      id_user: req.body.id_user,
+      target_fund: req.body.target_fund,
+      current_fund: 0,
+      status: req.body.status
+   });
+   
+   project.save();
+
+   Projects.findOne().sort({'_id':-1}).limit(1).then(document =>{
+      
+      let id = document._id;
+      console.log(id);
+      const image = new Images({
+         id_project: id,
+         url_image: req.body.image_url
+      });
+      image.save();
+      console.log("Added");
+      res.send({ message: 'Project Inserted'});
+      
+   });
+   
+   console.log("Finish");
+   
+   
+});
+//Setup image
+app.post('/imageUpload', async (req, res) => {
+   Projects.findOne().sort({'_id':-1}).limit(1).then(document =>{
+      const image = new Images({
+         id_user: document._id,
+         image_url: req.body.image_url
+      });
+      image.save();
+      console.log("Added");
+      res.send({ message: 'Image setup'});
+   });
+   
+});
 // Create new project
 app.post('/newProject', async (req, res) => {
    const newProfile = req.body;
@@ -113,3 +168,6 @@ startDatabase().then(async () => {
 app.listen(8000, () => {
    console.log('Example app listening on port 8000!')
 });
+
+
+//How can i get all the user details?
