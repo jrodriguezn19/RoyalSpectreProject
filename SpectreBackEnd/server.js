@@ -27,6 +27,14 @@ mongoose.connect("mongodb+srv://Ivan:ProjectSpectre@spectre-h7vto.mongodb.net/Sp
 // define Express app
 const app = express();
 
+// start the server and log console
+app.listen(8000, () => {
+   console.log('Example app listening on port 8000!')
+});
+
+// serve FrontEnd folder
+app.use(express.static('public'));
+
 // add Helmet to enhance the API security
 app.use(helmet());
 
@@ -164,12 +172,6 @@ startDatabase().then(async () => {
    console.log('--start database object created!--')
 })
 
-// start the server and log console
-app.listen(8000, () => {
-   console.log('Example app listening on port 8000!')
-});
 
-// serve FrontEnd folder
-app.use(express.static('index.html'));
 
 //How can i get all the user details?
