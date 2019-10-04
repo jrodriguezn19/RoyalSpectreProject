@@ -33,7 +33,7 @@ app.listen(8000, () => {
 });
 
 // serve FrontEnd folder
-app.use(express.static('../SpectreFrontEnd'));
+app.use(express.static('public'));
 
 // add Helmet to enhance the API security
 app.use(helmet());
