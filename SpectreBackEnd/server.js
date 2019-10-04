@@ -28,8 +28,8 @@ mongoose.connect("mongodb+srv://Ivan:ProjectSpectre@spectre-h7vto.mongodb.net/Sp
 const app = express();
 
 // start the server and log console
-app.listen(8000, () => {
-   console.log('Example app listening on port 8000!')
+app.listen(80, () => {
+   console.log('Example app listening on port 80!')
 });
 
 // serve FrontEnd folder
