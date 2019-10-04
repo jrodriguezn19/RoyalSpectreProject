@@ -169,5 +169,7 @@ app.listen(8000, () => {
    console.log('Example app listening on port 8000!')
 });
 
+// serve FrontEnd folder
+app.use(express.static('index.html'));
 
 //How can i get all the user details?
