@@ -34,8 +34,10 @@
           You Are Anonymous
         </a>
         <a routerLink="profile" *ngIf="auth.loggedIn">
-            <img src="../assets/images/logo2.png" width="60" height="45" alt="">
-            Profile Page
+          <div *ngIf="auth.userProfile$ | async as profile">
+            <img src="{{ profile.picture }}" width="50" height="45" alt="...">
+            {{profile.nickname}}
+          </div>
         </a>
       </li>
     </ul>

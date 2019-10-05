@@ -2,7 +2,13 @@
 
 <br>
 <div class="jumbotron">
-    <h1 class="display-4"> [User profile name!] </h1>
+    <h3 class="display-6"> 
+      
+        <div *ngIf="auth.userProfile$ | async as profile">
+            {{ profile.nickname | json }}
+        </div>
+
+    </h3>
     <p class="lead">This is a short description about the user and the projects they are involved in.</p>
     <hr class="my-4">
     <p>Longer description about the projects, motivations, and ideas the user may have. Some more text to ensure this looks built out for the demonstration. There would usually be better text than this.</p>
@@ -73,10 +79,10 @@
     <br>
     </div>
 
-    <pre *ngIf="auth.userProfile$ | async as profile">
+    <div *ngIf="auth.userProfile$ | async as profile">
         {{ profile.sub | json }}
         <input [(ngModel)]="id_user" [ngModelOptions]="{standalone: true}" class="form-control"  ng-init="id_user ='can you see me'">
-    </pre>
+    </div>
 
     <div class="form-group">
       <label for="target_fund" class="col-form-label">Target Fund:</label>
