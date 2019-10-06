@@ -19,6 +19,8 @@ export class ExternalApiComponent implements OnInit {
   // This code is based on an tutorial from the user "Academind" on Youtube.com
   // See https://www.youtube.com/watch?v=YkvqLNcJz3Y
 
+  //postImage() Upload the image to Firebase Sotorage and report the progress via the console.
+
   postImage() {
     console.log("uploading");
     const fd = new FormData();
@@ -36,6 +38,13 @@ export class ExternalApiComponent implements OnInit {
     })
 
   }
+  
+  selectedFile : File = null;
+
+  onFileSelected(event){
+    console.log(event);
+    this.selectedFile = <File>event.target.files[0];
+  }
 
   pingApi() {
     this.api.ping$().subscribe(
@@ -44,10 +53,5 @@ export class ExternalApiComponent implements OnInit {
   }
 
 
-  selectedFile : File = null;
 
-  onFileSelected(event){
-    console.log(event);
-    this.selectedFile = <File>event.target.files[0];
-  }
 }
