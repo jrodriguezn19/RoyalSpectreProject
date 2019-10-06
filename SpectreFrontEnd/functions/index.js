@@ -11,18 +11,16 @@ const gcconfig  ={
     keyFilename: "royalspectreproject-firebase-adminsdk-zussx-c81c552705.json"
 };
 
-//const gcs = require('@google-cloud/storage')(gcconfig)
-
 const gcs = new Storage(gcconfig);
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
+/*
 exports.helloWorld = functions.https.onRequest((request, response) => {
  response.send("Hello from Firebase!");
 });
-
-
+*/
 
 exports.uploadFile = functions.https.onRequest((req, res) => {
     cors(req, res, () => {

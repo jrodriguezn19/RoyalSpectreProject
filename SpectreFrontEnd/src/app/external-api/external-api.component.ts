@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
-import  {HttpClient} from '@angular/common/http';
+import  {HttpClient, HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'app-external-api',
@@ -14,6 +14,7 @@ export class ExternalApiComponent implements OnInit {
 
 
   ngOnInit() {
+    
   }
 
   postImage() {
@@ -46,10 +47,18 @@ export class ExternalApiComponent implements OnInit {
     console.log("uploading");
     const fd = new FormData();   
     fd.append('Testing', this.selectedFile, this.selectedFile.name);
-    this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd ).subscribe( res =>{
-       console.log(res);
-       alert("Upload Completed");
-
+    this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd, {
+      reportProgress: true,
+      observe: 'events'
+    })
+    .subscribe( event => {
+      console.log(event);
+      if(event.type === HttpEventType.UploadProgress){
+        console.log("Upload Progress: " + event.loaded);
+        alert("Upload Complete");
+      }else if(event.type === HttpEventType.Response){
+        console.log(event);
+      }
     })
 
   }
