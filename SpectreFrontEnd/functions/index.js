@@ -13,14 +13,8 @@ const gcconfig  ={
 
 const gcs = new Storage(gcconfig);
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-/*
-exports.helloWorld = functions.https.onRequest((request, response) => {
- response.send("Hello from Firebase!");
-});
-*/
+ // This code is based on an tutorial from the user "Academind" on Youtube.com
+  // See https://www.youtube.com/watch?v=YkvqLNcJz3Y
 
 exports.uploadFile = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
