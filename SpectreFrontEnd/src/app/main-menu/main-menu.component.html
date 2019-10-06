@@ -1,12 +1,12 @@
 <br>
-<div class="card shadow p-3 mb-5 bg-white rounded" style="margin-bottom: 4%;">
-  <img src="../assets/images/4.jpg" class="card-img-top" alt="...">
+<div *ngFor="let project of projects" class="card shadow p-3 mb-5 bg-white rounded" style="margin-bottom: 4%;">
+  <img src="{{project.image_url[0].url_image}}" class="card-img-top" alt="...">
   <div class="card-body">
 
     <div class="row">
       <div class="col">
-        <h5 class="card-title">Michael Moore</h5>
-        <h5 class="text-left">$120/$500</h5>
+        <h5 class="card-title">{{project._id}}</h5>
+        <h5 class="text-left">{{project.current_fund}}/{{project.target_fund}}</h5>
         <p class="card-text">30 Participants</p>
        
       </div>
@@ -19,23 +19,3 @@
     </div>
   </div>
 </div>
-<div class="card shadow p-3 mb-5 bg-white rounded" style="margin-bottom: 4%;">
-    <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/6.jpg?alt=media&token=57f0fd2a-30f4-469c-8371-d30e66a47975" class="card-img-top" alt="...">
-    <div class="card-body">
-  
-      <div class="row">
-        <div class="col">
-          <h5 class="card-title">Michael Moore</h5>
-          <h5 class="text-left">$120/$500</h5>
-          <p class="card-text">30 Participants</p>
-         
-        </div>
-        <div class="col text-right">
-          <p class="card-text">Likes by 56 people</p>
-          <button href="#" class="btn btn-danger mr-1">Like</button>
-          <button href="#" class="btn btn-primary">See Project</button>
-        </div>
-  
-      </div>
-    </div>
-  </div>
