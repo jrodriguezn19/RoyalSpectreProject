@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
-import  {HttpClient} from '@angular/common/http';
+import  {HttpClient, HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'app-external-api',
@@ -14,17 +14,36 @@ export class ExternalApiComponent implements OnInit {
 
 
   ngOnInit() {
+    
   }
+  // This code is based on an tutorial from the user "Academind" on Youtube.com
+  // See https://www.youtube.com/watch?v=YkvqLNcJz3Y
+
+  //postImage() Upload the image to Firebase Sotorage and report the progress via the console.
 
   postImage() {
     console.log("uploading");
     const fd = new FormData();
     fd.append('Testing', this.selectedFile, this.selectedFile.name);
-    this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd ).subscribe( res =>{
-       console.log(res);
-       alert("Post Complete");
+    this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd, {
+      reportProgress: true,
+      observe: 'events'})
+      .subscribe( event => {
+       if(event.type === HttpEventType.UploadProgress){
+        console.log("Upload Progress: " + Math.round(event.loaded/event.total * 100) + "%");
+      }else if(event.type === HttpEventType.Response){
+        console.log(event);
+        alert('Post Uploaded');
+      }      
     })
 
+  }
+  
+  selectedFile : File = null;
+
+  onFileSelected(event){
+    console.log(event);
+    this.selectedFile = <File>event.target.files[0];
   }
 
   pingApi() {
@@ -33,25 +52,6 @@ export class ExternalApiComponent implements OnInit {
     );
   }
 
-  // This code is based on an tutorial from the user "Academind" on Youtube.com
-  // See https://www.youtube.com/watch?v=YkvqLNcJz3Y
-  selectedFile : File = null;
 
-  onFileSelected(event){
-    console.log(event);
-    this.selectedFile = <File>event.target.files[0];
-  }
-
-  onUpload(){
-    console.log("uploading");
-    const fd = new FormData();   
-    fd.append('Testing', this.selectedFile, this.selectedFile.name);
-    this.http.post('https://us-central1-royalspectreproject.cloudfunctions.net/uploadFile', fd ).subscribe( res =>{
-       console.log(res);
-       alert("Upload Completed");
-
-    })
-
-  }
 
 }
