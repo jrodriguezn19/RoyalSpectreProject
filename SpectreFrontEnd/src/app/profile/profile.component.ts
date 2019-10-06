@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
     const fd = new FormData();
     let that = this;
     
-    axios.post('http://localhost:8080/imageName')
+    axios.post('http://localhost:8000/imageName')
       .then(function (response) {
         alert('Response : ' + response.data);
         fileName = response.data + '.' + ext;
@@ -52,7 +52,7 @@ export class ProfileComponent implements OnInit {
           console.log(res);
           alert("Post Complete");
         })
-        axios.post('http://localhost:8080/createProject', { id_user: id_user, target_fund: that.target_fund, status: that.status, image_url: url })
+        axios.post('http://localhost:8000/createProject', { id_user: id_user, target_fund: that.target_fund, status: that.status, image_url: url })
           .then(function (response) {
             console.log(response.data['message']);
           })

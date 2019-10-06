@@ -18,7 +18,7 @@ export class MainMenuComponent implements OnInit {
       delay: 0, // values from 0 to 3000, with step 50ms
       duration: 1000 // values from 0 to 3000, with step 50ms
     });
-    Axios.get<{message: string, projects: Project[]}>('http://localhost:8080/project')
+    Axios.get<{message: string, projects: Project[]}>('http://localhost:8000/project')
     .then((projectData) => {
       this.projects = projectData.data.projects;
       this.projectsUpdated.next([...this.projects]);
