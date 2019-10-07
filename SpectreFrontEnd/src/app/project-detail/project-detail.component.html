@@ -1,11 +1,11 @@
-<div class="card shadow p-3 mb-2 bg-white rounded" style="width: 90%;">
+<div *ngFor="let project of project" class="card shadow p-3 mb-2 bg-white rounded" style="width: 90%;">
     <div class="card-body">
         <div class="row">
             <div class="col-6">
-                <h5 class="card-title">Michael Moore</h5>
+                <h5 class="card-title">{{project._id}}</h5>
             </div>
             <div class="col-6">
-                <h5 class="text-right">$120/$500</h5>
+                <h5 class="text-right">${{project.current_fund}}/${{project.target_fund}}</h5>
             </div>
             <div class="col-6">
                 <a href="#" class="btn btn-danger" style="margin-right:3%;">Like</a>
@@ -39,7 +39,23 @@
     <div class="card-body">
         <p class="card-text text-right"><small class="text-muted">17 August 2019</small></p>
     </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><img src="../assets/images/pic2.jpg" style="width: 50%;"></li>
+        <li class="list-group-item"><img src="../assets/images/pic2.jpg" style="width: 50%;"></li>
+        <li class="list-group-item"><img src="../assets/images/pic2.jpg" style="width: 50%;"></li>
+    </ul>
+
+    <div class="input-group mb-3">
+
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile03" (change)="onFileSelected($event)"
+                aria-describedby="inputGroupFileAddon03" (change)="onFileSelected($event)">
+            <label class="custom-file-label" for="inputGroupFile03">Choosen Image</label>
+        </div>
+    </div>
+
 </div>
+
 <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 90%;">
     <img src="../assets/images/pic2.jpg" class="card-img-top" alt="...">
     <div class="card-body">
