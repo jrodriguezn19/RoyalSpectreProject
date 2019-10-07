@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import axios from 'axios';
+import { Project } from '../project.model';
+import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -9,10 +12,24 @@ import axios from 'axios';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
-
+  id: any;
+  paramsSub: any;
+  projects: Project[] = [];
+  projectsUpdated =new Subject<Project[]>();
+  constructor(private activatedRoute: ActivatedRoute, public auth: AuthService) { }
+  
+  
   ngOnInit() {
-    
+
+    let that = this;
+    this.paramsSub = this.activatedRoute.params.subscribe(params => this.id = params['id']);
+   
+    axios.post<{message: string, projects: Project[]}>('http://localhost:8000/projectUser',{ id_user: this.id })
+    .then((projectData) => {
+      this.projects = projectData.data.projects;
+      this.projectsUpdated.next([...this.projects]);
+      console.log(this.projects);
+    });
   }
 
   enteredProjectName: String = '';
@@ -33,7 +50,7 @@ export class ProfileComponent implements OnInit {
     this.selectedFile = <File>event.target.files[0];
   }
 
-  CreateProject(id_user: String) {
+  CreateProject(id_user: String, user_name: String) {
     
     let fileName = 'uio';
     let ext = this.selectedFile.name.split('.')[1];
@@ -52,7 +69,7 @@ export class ProfileComponent implements OnInit {
           console.log(res);
           alert("Post Complete");
         })
-        axios.post('http://localhost:8000/createProject', { id_user: id_user, target_fund: that.target_fund, status: that.status, image_url: url })
+        axios.post('http://localhost:8000/createProject', { user_name: user_name, id_user: id_user, target_fund: that.target_fund, status: that.status, image_url: url })
           .then(function (response) {
             console.log(response.data['message']);
           })
