@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, RouterEvent, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import axios from 'axios';
 import { Project } from '../project.model';
 import { Comment } from '../comment.model';
 import { Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
@@ -15,32 +16,38 @@ export class ProjectDetailComponent implements OnInit {
   paramsSub: any;
   project: Project;
 
-
-  constructor(private activatedRoute: ActivatedRoute, public auth: AuthService) {
+  constructor(private activatedRoute: ActivatedRoute, public auth: AuthService, public router: Router) {
 
   }
   projects: Project[] = [];
   comments: Comment[] = [];
   commentsUpdated = new Subject<Comment[]>();
   projectsUpdated = new Subject<Project[]>();
-  ngOnInit() {
-    let that = this;
+  //#1 This code by Simon McClive on Medium for reload the same url
+  ngOnInit(): void {
+    //#1 start
+    this.router.events.pipe(
+      filter((event: RouterEvent) => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.getDetailProject();
+    });
+    //#1 finish
     this.paramsSub = this.activatedRoute.params.subscribe(params => this.id = params['id']);
-
-    axios.post('http://localhost:8000/selectedProject', { id_project: this.id })
-      .then(function (response) {
-        console.log(response.data['message']);
-        //this.project = response.data.project;
-        that.project = response.data.project;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+   this.getDetailProject();
     this.getComment();
-    
-
-      
-
+  }
+  
+  getDetailProject(){
+    let that = this;
+    axios.post('http://localhost:8000/selectedProject', { id_project: this.id })
+    .then(function (response) {
+      console.log(response.data['message']);
+      //this.project = response.data.project;
+      that.project = response.data.project;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
   //sendComment
   getComment(){
@@ -53,7 +60,6 @@ export class ProjectDetailComponent implements OnInit {
       });
   }
   imageUpload: String = '';
-
 
   fileData: File = null;
   fileProgress(fileInput: any) {
