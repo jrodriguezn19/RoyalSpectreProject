@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import  {HttpClient, HttpEventType} from '@angular/common/http';
+//Libraries for Firebase Storage use
+import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-external-api',
@@ -9,17 +15,45 @@ import  {HttpClient, HttpEventType} from '@angular/common/http';
 })
 export class ExternalApiComponent implements OnInit {
   responseJson: string;
+  uploadPercent: Observable<number>;
+  downloadURL: Observable<string>;
+  
+  constructor(private api: ApiService, private http: HttpClient, private storage: AngularFireStorage) { }
+  
+  uploadFile(event) {
+    const file = event.target.files[0];
+    const filePath = file.name;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);
 
-  constructor(private api: ApiService, private http: HttpClient) { }
-
+    // observe percentage changes
+    this.uploadPercent = task.percentageChanges();
+    // get notified when the download URL is available
+    task.snapshotChanges().pipe(
+        finalize(() => this.downloadURL = fileRef.getDownloadURL() )
+     )
+    .subscribe()
+  }
 
   ngOnInit() {
     
   }
-  // This code is based on an tutorial from the user "Academind" on Youtube.com
-  // See https://www.youtube.com/watch?v=YkvqLNcJz3Y
 
-  //postImage() Upload the image to Firebase Sotorage and report the progress via the console.
+
+  pingApi() {
+    this.api.ping$().subscribe(
+      res => this.responseJson = res
+    );
+  }
+
+
+  
+  /**
+   * The code below was the old method to upload images to Firebase that we can delete once the new fucntion is working properly
+   * 
+   * 
+   * 
+   */
 
   postImage() {
     console.log("uploading");
@@ -46,11 +80,9 @@ export class ExternalApiComponent implements OnInit {
     this.selectedFile = <File>event.target.files[0];
   }
 
-  pingApi() {
-    this.api.ping$().subscribe(
-      res => this.responseJson = res
-    );
-  }
+
+
+
 
 
 

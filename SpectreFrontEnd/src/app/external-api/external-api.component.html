@@ -28,6 +28,12 @@
 
 <br>
 <br>
+<p>--------New method to upload images-----------</p>
+
+<input type="file" (change)="uploadFile($event)" />
+<div>{{ uploadPercent | async }}</div>
+<a [href]="downloadURL | async">{{ downloadURL | async }}</a>
+
 <p>----------------Testing Zone------------</p>
 
 <button (click)="pingApi()">Ping API</button>
