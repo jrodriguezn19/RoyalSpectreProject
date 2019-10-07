@@ -62,3 +62,7 @@
  - Branch early and often
  - Let the team know on trello discussion card what you're working on and when ; https://trello.com/b/J3xMvp6v/royal-spectre-assignment-3
  
+**APIs Used**
+-Auth0 provides the login module to authenticate users.
+-Firebase Storage provides the service to host the user's images.
+-MongoDB is used to store the user's data except images.
