@@ -5,33 +5,14 @@
         <h5 class="card-title text-white align-bottom">Popular Project</h5>
     </div>
     <div class="card-body ">
-        <div class="list-group-flush">
+        <div *ngFor="let project of projects" class="list-group-flush">
 
-            <a href="#" class="list-group-item list-group-item-action">
-                <img src="../assets/images/1.jpg" class="rounded-sm" style="margin-right:5%;" width="14%" height="14%"
+            <a href="#" class="list-group-item list-group-item-action" [routerLink]="['/project-detail', project._id]">
+                <img src="{{project.image_url}}" class="rounded-sm" style="margin-right:5%;" width="100%" height="14%"
                     alt="...">
-                Antoine Sharp
+                <small>{{project.user_name}}</small>
             </a>
-            <a href="#" class="list-group-item list-group-item-action">
-                <img src="../assets/images/3.jpg" class="rounded-sm" style="margin-right:5%;" width="14%" height="14%"
-                    alt="...">
-                Gerald Tony
-            </a>
-            <a href="#" class="list-group-item list-group-item-action">
-                <img src="../assets/images/4.jpg" class="rounded-sm" style="margin-right:5%;" width="14%" height="14%"
-                    alt="...">
-                Michael Moore
-            </a>
-            <a href="#" class="list-group-item list-group-item-action">
-                <img src="../assets/images/6.jpg" class="rounded-sm" style="margin-right:5%;" width="14%" height="14%"
-                    alt="...">
-                Alejandra De Laurent
-            </a>
-            <a href="#" class="list-group-item list-group-item-action">
-                <img src="../assets/images/5.jpg" class="rounded-sm" style="margin-right:5%;" width="14%" height="14%"
-                    alt="...">
-                Jonathan Michele
-            </a>
+            
         </div>
     </div>
 </div>
