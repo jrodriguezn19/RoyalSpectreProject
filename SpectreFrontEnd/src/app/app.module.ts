@@ -16,6 +16,9 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HttpClientModule }    from '@angular/common/http';
 import { CallbackComponent } from './callback/callback.component';
 import { ExternalApiComponent } from './external-api/external-api.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -35,9 +38,13 @@ import { ExternalApiComponent } from './external-api/external-api.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule // imports firebase/storage only needed for storage features
   ],
-  providers: [],
+  providers: [
+    { provide: StorageBucket, useValue: 'gs://royalspectreproject.appspot.com/' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
