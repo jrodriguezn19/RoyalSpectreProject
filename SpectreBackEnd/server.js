@@ -71,6 +71,15 @@ app.get('/project', async (req, res) => {
    })
 
 });
+app.post('/selectedProject', async (req, res) => {
+   Projects.find({_id: req.body.id})
+   .then(document => {
+      res.status(200).json({
+         message: "Project fetch Successfully",
+         project: document
+      });
+   })
+});
 
 app.get('/projectUser', async (req, res) => {
 

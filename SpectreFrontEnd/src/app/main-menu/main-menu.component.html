@@ -1,6 +1,6 @@
 <br>
 <div *ngFor="let project of projects" class="card shadow p-3 mb-5 bg-white rounded" style="margin-bottom: 4%;">
-  <img src="{{project.image_url[0].url_image}}" class="card-img-top" alt="...">
+  <img src="{{project.image_url}}" class="card-img-top" alt="...">
   <div class="card-body">
 
     <div class="row">
@@ -13,7 +13,7 @@
       <div class="col text-right">
         <p class="card-text">Likes by 56 people</p>
         <button href="#" class="btn btn-danger mr-1">Like</button>
-        <button href="#" class="btn btn-primary">See Project</button>
+        <button [routerLink]="['/project-detail', project._id]" class="btn btn-primary">See Project</button>
       </div>
 
     </div>

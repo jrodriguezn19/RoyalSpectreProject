@@ -15,7 +15,7 @@ import { ExternalApiComponent } from './external-api/external-api.component';
 const routes: Routes = [
   
   { path: '', component: MainMenuComponent},
-  { path: 'project-detail', component: ProjectDetailComponent},
+  { path: 'project-detail/:id', component: ProjectDetailComponent},
   { path: 'callback', component: CallbackComponent},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'external-api', component: ExternalApiComponent, canActivate: [AuthGuard]}
