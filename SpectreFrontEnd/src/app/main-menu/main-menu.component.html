@@ -1,4 +1,17 @@
 <br>
+<!-- Example split danger button -->
+<div class="btn-group" float-right>
+    <button type="button" class="btn btn-primary">Sort by</button>
+    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="" (click)="getProjectSortPopular()">Popular</a>
+      <a class="dropdown-item" href="" (click)="getProjectSortNewest()">Newest</a>
+    </div>
+  </div>
+<br>
+<br>
 <div *ngFor="let project of projects" class="card shadow p-3 mb-5 bg-white rounded" style="margin-bottom: 4%;">
   <img src="{{project.image_url}}" class="card-img-top" alt="...">
   <div class="card-body">

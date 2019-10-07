@@ -15,14 +15,14 @@ import { ExternalApiComponent } from './external-api/external-api.component';
 const routes: Routes = [
   
   { path: '', component: MainMenuComponent},
-  { path: 'project-detail/:id', component: ProjectDetailComponent},
+  { path: 'project-detail/:id', component: ProjectDetailComponent },
   { path: 'callback', component: CallbackComponent},
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'external-api', component: ExternalApiComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule],
   providers: [
     {

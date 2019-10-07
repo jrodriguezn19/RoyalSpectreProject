@@ -54,8 +54,27 @@ const authConfig = {
    audience: "https://profiles-api"
 };
 
-app.get('/project', async (req, res) => {
-   Projects.find().then(document => {
+app.get('/projectNewest', async (req, res) => {
+   Projects.find().sort( { '_id': -1 } ).then(document => {
+      res.status(200).json({
+         message: "Project fetch Successfully",
+         projects: document
+      });
+   })
+   
+});
+
+app.get('/projectPopular', async (req, res) => {
+   Projects.find().sort( { 'total_comment': -1 } ).then(document => {
+      res.status(200).json({
+         message: "Project fetch Successfully",
+         projects: document
+      });
+   })
+   
+});
+app.get('/projectPopularSideMenu', async (req, res) => {
+   Projects.find().sort( { 'total_comment': -1 } ).limit(6).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
@@ -83,7 +102,7 @@ app.post('/retrieveComments', async (req, res) => {
    })
 });
 app.post('/projectUser', async (req, res) => {
-   Projects.find({id_user: req.body.id_user}).then(document => {
+   Projects.find({id_user: req.body.id_user}).sort( { '_id': -1 } ).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
@@ -114,7 +133,22 @@ app.post('/sendComment', async (req, res) => {
       date: date.getHours()
    });
    comment.save();
-   res.send({message: "successfully"});
+
+ 
+
+   Projects.findOne({_id: mongoose.Types.ObjectId(req.body.id_project)}).then(document => {
+      console.log(document.total_comment);
+      let lastTotalComment = document.total_comment + 1;
+      console.log(lastTotalComment);
+      //res.send(newImageNumber.toString());
+      Projects.updateOne(
+         {_id: mongoose.Types.ObjectId(req.body.id_project)},
+         {$set: { "total_comment" : lastTotalComment}}).then(function (result) {
+            res.send(result.toString());
+         });
+   });
+   
+   
 })
 
 // check JSON Web Tokens
