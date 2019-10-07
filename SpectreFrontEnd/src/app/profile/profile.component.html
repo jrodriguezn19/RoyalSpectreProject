@@ -35,7 +35,30 @@
     <a class="btn btn-primary btn-lg float-right" routerLink="" data-toggle="modal" data-target="#newproject">New Project</a>
     <br>
   </div>
-
+  
+  <br>
+  <br>
+  <div *ngFor="let project of projects" class="card shadow p-3 mb-5 bg-white rounded" style="margin-bottom: 4%;">
+    <img src="{{project.image_url}}" class="card-img-top" alt="...">
+    <div class="card-body">
+  
+      <div class="row">
+        <div class="col">
+          <h5 class="card-title">{{project.user_name}}</h5>
+          <h5 class="text-left">{{project.current_fund}}/{{project.target_fund}}</h5>
+          <p class="card-text">30 Participants</p>
+         
+        </div>
+        <div class="col text-right">
+          <p class="card-text">Likes by 56 people</p>
+          <button href="#" class="btn btn-danger mr-1">Like</button>
+          <button [routerLink]="['/project-detail', project._id]" class="btn btn-primary">See Project</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
   <!--Carousel for project presentation with 3 items-->
 
 
@@ -71,14 +94,14 @@
               <div class="input-group mb-3">
                   
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="inputGroupFile03" (change)="onFileSelected($event)" aria-describedby="inputGroupFileAddon03" (change)="onFileSelected($event)">
+                  <input type="file" class="custom-file-input" id="inputGroupFile03" (change)="onFileSelected($event)" aria-describedby="inputGroupFileAddon03">
                   <label class="custom-file-label" for="inputGroupFile03">Choosen Image</label>
                 </div>
               </div>
           </form>
         </div>
         <div class="modal-footer">
-          <span (click)="CreateProject(profile.sub)" class="btn btn-primary">Create</span>
+          <span (click)="CreateProject(profile.sub, profile.name)" class="btn btn-primary">Create</span>
         </div>
       </div>
     </div>
