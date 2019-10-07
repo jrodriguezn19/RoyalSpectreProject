@@ -34,37 +34,70 @@
     </div>
 </div>
 
-<div class="card shadow p-3 mb-5 bg-white rounded" style="width: 90%;">
-    <img src="../assets/images/4.jpg" class="card-img-top" alt="...">
+<div *ngFor="let project of project" class="card shadow p-3 mb-5 bg-white rounded" style="width: 90%;">
+    <img src="{{project.image_url}}" class="card-img-top" alt="...">
     <div class="card-body">
         <p class="card-text text-right"><small class="text-muted">17 August 2019</small></p>
     </div>
+    <ul *ngFor="let comment of comments" class="list-group list-group-flush">
+        <li class="list-group-item">
+            <div class="media">
+                <img src="{{comment.profile_picture}}" width="10%" class="mr-3" alt="...">
+                <div class="media-body">
+                    <h5>{{comment.user_name}}</h5>
+                    <small class="mt-0">{{comment.date}}</small>
+                </div>
+            </div>
+            <br>
+            <img src="{{comment.image_url}}" style="width: 50%;">
+    </ul>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><img src="../assets/images/pic2.jpg" style="width: 50%;"></li>
-        <li class="list-group-item"><img src="../assets/images/pic2.jpg" style="width: 50%;"></li>
-        <li class="list-group-item"><img src="../assets/images/pic2.jpg" style="width: 50%;"></li>
+        <li class="list-group-item">
+            <form>
+                <div class="custom-file">
+
+                    <input type="file" class="custom-file-input" id="customFile" (change)="onFileSelected($event)">
+                    <label class="custom-file-label" for="customFile">To comment, choose image</label>
+                </div>
+                <div *ngIf="auth.userProfile$ | async as profile; else elseButton">
+                    <button type="submit" (click)="SendComment(profile.sub, profile.nickname, profile.picture)"
+                        class="btn btn-primary mt-2" data-toggle="modal"
+                        data-target="#loadingScreen">Submit</button>
+                </div>
+                <ng-template #elseButton>
+                    <button type="submit"
+                        (click)="SendComment('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2')"
+                        class="btn btn-primary mt-2" data-toggle="modal"
+                        data-target="#loadingScreen">Submit</button>
+                </ng-template>
+            </form>
+        </li>
     </ul>
 
-    <div class="input-group mb-3">
 
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile03" (change)="onFileSelected($event)"
-                aria-describedby="inputGroupFileAddon03" (change)="onFileSelected($event)">
-            <label class="custom-file-label" for="inputGroupFile03">Choosen Image</label>
+
+
+</div>
+
+<div class="modal fade" id="loadingScreen" aria-hidden="true">
+    <div class="d-flex justify-content-center" style="margin-top: 20%;">
+        <div class="spinner-grow text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
-
-</div>
-
-<div class="card shadow p-3 mb-5 bg-white rounded" style="width: 90%;">
-    <img src="../assets/images/pic2.jpg" class="card-img-top" alt="...">
-    <div class="card-body">
-        <p class="card-text text-right"><small class="text-muted">31 July 2019</small></p>
-    </div>
-</div>
-<div class="card shadow p-3 mb-5 bg-white rounded" style="width: 90%;">
-    <img src="../assets/images/pic3.jpg" class="card-img-top" alt="...">
-    <div class="card-body">
-        <p class="card-text text-right"><small class="text-muted">20 June 2019</small></p>
+    <div class="d-flex justify-content-center">
+        <h1 class="text-white">Loading</h1>
     </div>
 </div>
