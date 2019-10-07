@@ -64,7 +64,7 @@ app.get('/project', async (req, res) => {
    
 });
 app.post('/selectedProject', async (req, res) => {
-   Projects.find({_id: req.body.id})
+   Projects.find({_id: req.body.id_project})
    .then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
@@ -73,6 +73,15 @@ app.post('/selectedProject', async (req, res) => {
    })
 });
 
+app.post('/retrieveComments', async (req, res) => {
+   Comments.find({id_project: req.body.id_project})
+   .then(document => {
+      res.status(200).json({
+         message: "Project fetch Successfully",
+         comments: document
+      });
+   })
+});
 app.post('/projectUser', async (req, res) => {
    Projects.find({id_user: req.body.id_user}).then(document => {
       res.status(200).json({
@@ -99,6 +108,8 @@ app.post('/sendComment', async (req, res) => {
    const comment = new Comments({
       id_user: id_user_init,
       user_name: user_name_init,
+      profile_picture: req.body.profile_picture,
+      id_project: req.body.id_project,
       image_url: req.body.image_url,
       date: date.getHours()
    });
