@@ -55,21 +55,13 @@ const authConfig = {
 };
 
 app.get('/project', async (req, res) => {
-
-   Projects.aggregate([{
-      $lookup: {
-         from: "images",
-         localField: "id_project",
-         foreignField: "_id",
-         as: "image_url"
-      }
-   }]).then(document => {
+   Projects.find().then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
       });
    })
-
+   
 });
 app.post('/selectedProject', async (req, res) => {
    Projects.find({_id: req.body.id})
@@ -81,31 +73,38 @@ app.post('/selectedProject', async (req, res) => {
    })
 });
 
-app.get('/projectUser', async (req, res) => {
-
-
-   Projects.aggregate(
-      [{
-         $match: { id_user: "123" }
-      },
-      {
-         $lookup: {
-            from: "images",
-            localField: "id_project",
-            foreignField: "_id",
-            as: "images"
-         }
-      }]
-   ).then(document => {
+app.post('/projectUser', async (req, res) => {
+   Projects.find({id_user: req.body.id_user}).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
       });
    })
-
-
 });
 
+app.post('/sendComment', async (req, res) => {
+   let id_user_init = '';
+   let user_name_init = '';
+   if(req.body.id_user === null){
+      id_user_init = 'Anonymous';
+   } else {
+      id_user_init = req.body.id_user;
+   }
+   if(req.body.user_name === null){
+      user_name_init = 'Anonymous';
+   } else {
+      user_name_init = req.body.user_name;
+   }
+   const date = new Date();
+   const comment = new Comments({
+      id_user: id_user_init,
+      user_name: user_name_init,
+      image_url: req.body.image_url,
+      date: date.getHours()
+   });
+   comment.save();
+   res.send({message: "successfully"});
+})
 
 // check JSON Web Tokens
 // JWT [Only checked for POST, DELETE, PUT endpoint. No authority required for GET request of this app to view]
@@ -150,6 +149,7 @@ app.post('/createProject', async (req, res) => {
 
    const project = new Projects({
       id_user: req.body.id_user,
+      user_name: req.body.user_name,
       image_url: req.body.image_url,
       target_fund: req.body.target_fund,
       current_fund: 0,
@@ -157,21 +157,6 @@ app.post('/createProject', async (req, res) => {
    });
 
    project.save();
-
-   Projects.findOne().sort({ '_id': -1 }).limit(1).then(document => {
-
-      let id = document._id;
-      console.log(id);
-      const image = new Images({
-         id_project: id,
-         url_image: req.body.image_url
-      });
-      image.save();
-      console.log("Added");
-      res.send({ message: 'Project Inserted' });
-
-   });
-
    console.log("Finish");
 
 
