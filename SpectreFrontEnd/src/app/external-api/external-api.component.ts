@@ -46,7 +46,7 @@ export class ExternalApiComponent implements OnInit {
     );
   }
 
-
+ 
   
   /**
    * The code below was the old method to upload images to Firebase that we can delete once the new fucntion is working properly
