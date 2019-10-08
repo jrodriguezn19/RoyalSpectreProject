@@ -35,7 +35,7 @@ export class ProfileAnonymousComponent implements OnInit {
     });
   }
   getProject(){
-    Axios.post<{message: string, projects: Project[]}>('http://localhost:8000/projectUser',{ id_user: this.id })
+    Axios.post<{message: string, projects: Project[]}>('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/projectUser',{ id_user: this.id })
     .then((projectData) => {
       this.projects = projectData.data.projects;
       this.projectsUpdated.next([...this.projects]);
@@ -43,7 +43,7 @@ export class ProfileAnonymousComponent implements OnInit {
     });
   }
   getUser(){
-    Axios.post('http://localhost:8000/detailUser',{ id_user: this.id })
+    Axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/detailUser',{ id_user: this.id })
     .then(userData => {
       this.users = userData.data;
       //this.userUpdated.next([...this.users]);

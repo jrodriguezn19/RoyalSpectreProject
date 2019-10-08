@@ -22,7 +22,7 @@ export class NavBarComponent implements OnInit {
   confirmPassword = '';
 
   login(){
-    axios.post('http://localhost:8000/login' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
+    axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/login' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
     .then(function (response) {
       console.log(response.data['message']);
     })
@@ -31,7 +31,7 @@ export class NavBarComponent implements OnInit {
     });
   }
   register(){
-    axios.post('http://localhost:8000/register' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
+    axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/register' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
     .then(function (response) {
       console.log(response.data['message']);
     })

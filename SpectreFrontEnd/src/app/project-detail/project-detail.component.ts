@@ -40,7 +40,7 @@ export class ProjectDetailComponent implements OnInit {
   
   getDetailProject(){
     let that = this;
-    axios.post('http://localhost:8000/selectedProject', { id_project: this.id })
+    axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/selectedProject', { id_project: this.id })
     .then(function (response) {
       console.log(response.data['message']);
       //this.project = response.data.project;
@@ -52,7 +52,7 @@ export class ProjectDetailComponent implements OnInit {
   }
   //sendComment
   getComment(){
-    axios.post<{ message: string, comments: Comment[] }>('http://localhost:8000/retrieveComments', { id_project: this.id })
+    axios.post<{ message: string, comments: Comment[] }>('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/retrieveComments', { id_project: this.id })
       .then((commentData) => {
         console.log(commentData.data['message']);
         this.comments = commentData.data.comments;
@@ -75,7 +75,7 @@ export class ProjectDetailComponent implements OnInit {
   }
   DeleteComment(id_comment: String){
     //deleteComment
-    axios.post('http://localhost:8000/deleteComment', { id_comment: id_comment })
+    axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/deleteComment', { id_comment: id_comment })
           .then(function (response) {
             console.log(response.data['message']);
             location.reload();
@@ -86,7 +86,7 @@ export class ProjectDetailComponent implements OnInit {
   }
   SendReact(id_user: String, user_name: String, profile_picture: String, react: Number) {
     let url = 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react' + react + '.svg?alt=media&token=57f0fd2a-30f4-469c-8371-d30e66a47975';
-    axios.post('http://localhost:8000/sendComment', { id_user: id_user, typeReact: react, id_project: this.project[0]._id, user_name: user_name, image_url: url, profile_picture: profile_picture })
+    axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/sendComment', { id_user: id_user, typeReact: react, id_project: this.project[0]._id, user_name: user_name, image_url: url, profile_picture: profile_picture })
           .then(function (response) {
             console.log(response.data['message']);
             location.reload();
@@ -104,7 +104,7 @@ export class ProjectDetailComponent implements OnInit {
 
     const fd = new FormData();
     let that = this;
-    axios.post('http://localhost:8000/imageName')
+    axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/imageName')
       .then(function (response) {
         fileName = response.data + '.' + ext;
         let url = 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/' + fileName + '?alt=media&token=57f0fd2a-30f4-469c-8371-d30e66a47975';
@@ -113,7 +113,7 @@ export class ProjectDetailComponent implements OnInit {
           console.log(res);
           location.reload();
         })
-        axios.post('http://localhost:8000/sendComment', { id_user: id_user, typeReact: 0, id_project: that.project[0]._id, user_name: user_name, image_url: url, profile_picture: profile_picture })
+        axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/sendComment', { id_user: id_user, typeReact: 0, id_project: that.project[0]._id, user_name: user_name, image_url: url, profile_picture: profile_picture })
           .then(function (response) {
             console.log(response.data['message']);
             

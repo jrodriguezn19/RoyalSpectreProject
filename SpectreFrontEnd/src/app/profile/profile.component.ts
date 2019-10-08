@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
     let that = this;
     this.paramsSub = this.activatedRoute.params.subscribe(params => this.id = params['id']);
    
-    axios.post<{message: string, projects: Project[]}>('http://localhost:8000/projectUser',{ id_user: this.id })
+    axios.post<{message: string, projects: Project[]}>('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/projectUser',{ id_user: this.id })
     .then((projectData) => {
       this.projects = projectData.data.projects;
       this.projectsUpdated.next([...this.projects]);
@@ -58,7 +58,7 @@ export class ProfileComponent implements OnInit {
     const fd = new FormData();
     let that = this;
     
-    axios.post('http://localhost:8000/imageName')
+    axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/imageName')
       .then(function (response) {
         fileName = response.data + '.' + ext;
         let url = 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/' + fileName + '?alt=media&token=57f0fd2a-30f4-469c-8371-d30e66a47975';
@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
           console.log(res);
           location.reload();
         })
-        axios.post('http://localhost:8000/createProject', { user_name: user_name,photo_profile: photo_profile, id_user: id_user, target_fund: that.target_fund, status: that.status, image_url: url })
+        axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/createProject', { user_name: user_name,photo_profile: photo_profile, id_user: id_user, target_fund: that.target_fund, status: that.status, image_url: url })
           .then(function (response) {
             console.log(response.data['message']);
           })
@@ -82,7 +82,7 @@ export class ProfileComponent implements OnInit {
       
   }
   DeleteProject(id_project: String) {
-    axios.post('http://localhost:8000/deleteProject', {id_project: id_project})
+    axios.post('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/deleteProject', {id_project: id_project})
       .then(document => {
         alert(document.data.message);
         location.reload();

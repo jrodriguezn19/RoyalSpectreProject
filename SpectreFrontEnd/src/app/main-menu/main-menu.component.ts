@@ -32,7 +32,7 @@ export class MainMenuComponent implements OnInit {
   getProjectSortNewest() {
     localStorage.setItem('paramSorting', 'newest');
     //alert("Setup to " + localStorage.getItem('sortBy'));
-    Axios.get<{ message: string, projects: Project[] }>('http://localhost:8000/projectNewest')
+    Axios.get<{ message: string, projects: Project[] }>('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/projectNewest')
       .then((projectData) => {
         this.projects = projectData.data.projects;
         this.projectsUpdated.next([...this.projects]);
@@ -44,7 +44,7 @@ export class MainMenuComponent implements OnInit {
   getProjectSortPopular() {
     localStorage.setItem('paramSorting', 'popular');
     //alert("Setup to " + localStorage.getItem('sortBy'));
-    Axios.get<{ message: string, projects: Project[] }>('http://localhost:8000/projectPopular')
+    Axios.get<{ message: string, projects: Project[] }>('http://ec2-13-59-247-94.us-east-2.compute.amazonaws.com/projectPopular')
       .then((projectData) => {
         this.projects = projectData.data.projects;
         this.projectsUpdated.next([...this.projects]);
