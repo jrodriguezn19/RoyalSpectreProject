@@ -1,8 +1,10 @@
+<br>
+<br>
 <div *ngFor="let project of project" class="card shadow p-3 mb-2 bg-white rounded" style="width: 90%;">
     <div class="card-body">
         <div class="row">
             <div class="col-6">
-                <h5 class="card-title">{{project._id}}</h5>
+                <h5 class="card-title">{{project.user_name}}</h5>
             </div>
             <div class="col-6">
                 <h5 class="text-right">${{project.current_fund}}/${{project.target_fund}}</h5>
@@ -12,24 +14,22 @@
                 <a routerLink="project-detail" class="btn btn-success">Donate</a>
             </div>
             <div class="col-6">
-                <p class="card-text text-right">30 Participants</p>
+                <p class="card-text text-right">Project Popularity <strong
+                        class="text-success text-right">{{project.score_comment_react}}</strong></p>
             </div>
             <div class="col-6">
 
             </div>
             <div class="col-6">
-                <p class="text-right">Likes by 56 people</p>
+                <p class="card-text text-right">Project still in <strong class="text-danger text-right">Concept</strong>
+                </p>
             </div>
             <div class="col-6">
-                <p class="card-text">Project still in <strong class="text-danger">Concept</strong></p>
+
 
             </div>
             <div class="col-6">
             </div>
-        </div>
-        <div class="progress mt-3">
-            <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;" aria-valuenow="15"
-                aria-valuemin="0" aria-valuemax="100">Progress 25%</div>
         </div>
     </div>
 </div>
@@ -47,6 +47,13 @@
                     <h5>{{comment.user_name}}</h5>
                     <small class="mt-0">{{comment.date}}</small>
                 </div>
+                <div *ngIf="auth.userProfile$ | async as profile">
+                    <div *ngIf="profile.sub === comment.id_user">
+                        <button type="button" (click)="DeleteComment(comment._id)" class="btn btn-outline-danger">Delete</button>
+                    </div>
+
+                </div>
+
             </div>
             <br>
             <img src="{{comment.image_url}}" style="width: 50%;">
@@ -68,27 +75,37 @@
                         Quick React
                     </button>
                     <div class="dropdown-menu">
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact(profile.sub, profile.nickname, profile.picture, 1)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact(profile.sub, profile.nickname, profile.picture, 1)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react1.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Love
                         </a>
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact(profile.sub, profile.nickname, profile.picture, 2)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact(profile.sub, profile.nickname, profile.picture, 2)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react2.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Like
                         </a>
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact(profile.sub, profile.nickname, profile.picture, 3)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact(profile.sub, profile.nickname, profile.picture, 3)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react3.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Neutral
                         </a>
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact(profile.sub, profile.nickname, profile.picture, 4)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact(profile.sub, profile.nickname, profile.picture, 4)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react4.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Dislike
                         </a>
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact(profile.sub, profile.nickname, profile.picture, 5)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact(profile.sub, profile.nickname, profile.picture, 5)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react5.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Heart Break
@@ -99,32 +116,42 @@
                     <button type="submit"
                         (click)="SendComment('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2')"
                         class="btn btn-primary mt-2" data-toggle="modal" data-target="#loadingScreen">Submit</button>
-                        <button class="mt-2 float-right btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                    <button class="mt-2 float-right btn btn-warning dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         Quick React
                     </button>
                     <div class="dropdown-menu">
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 1)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 1)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react1.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Love
                         </a>
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 2)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 2)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react2.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Like
                         </a>
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 3)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 3)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react3.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Neutral
                         </a>
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 4)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 4)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react4.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Dislike
                         </a>
-                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 5)" class="dropdown-item">
+                        <a data-toggle="modal" data-target="#loadingScreen"
+                            (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 5)"
+                            class="dropdown-item">
                             <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react5.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
                                 class="rounded-sm" width="30%" alt="...">
                             Heart Break

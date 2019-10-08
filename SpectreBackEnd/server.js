@@ -165,6 +165,7 @@ app.post('/sendComment', async (req, res) => {
       user_name: user_name_init,
       profile_picture: req.body.profile_picture,
       id_project: req.body.id_project,
+      comment_value: score,
       image_url: req.body.image_url,
       date: date.getHours()
    });
@@ -292,6 +293,39 @@ app.post('/imageName', async (req, res) => {
          res.send(newImageNumber.toString());
       });
    });
+});
+
+//Delete Comment
+app.post('/deleteComment', async (req, res) => {
+   Comments.findOneAndDelete(
+      { "_id" : mongoose.Types.ObjectId(req.body.id_comment) }
+   ).then(result => {
+      Projects.findOne({ _id: mongoose.Types.ObjectId(result.id_project) }).then(document => {
+         console.log("Before " + document.score_comment_react);
+         let new_score = document.score_comment_react - result.comment_value;
+         console.log("After " + new_score);
+         let id_user_update = document.id_user;
+         let that = this;
+         Projects.updateOne(
+            { _id: mongoose.Types.ObjectId(result.id_project) },
+            { $set: { score_comment_react: new_score } }).then(function (result2) {
+               console.log("Updated " + new_score);
+               console.log("this is user id " + id_user_update);
+               UsersStatistic.findOne({ id_user: id_user_update }).then(document2 => {
+                  //console.log("this is score before " + document2.score_comment_react.toString());
+                  let total_comment = document2.score_comment_react - result.comment_value;
+                  let that2 = this;
+                  //console.log("this is score after " + total_comment.toString());
+                  UsersStatistic.updateOne(
+                     { id_user: id_user_update },
+                     { $set: { score_comment_react:  total_comment } }).then(function (result) {
+                        res.send("New comment added");
+                     });
+   
+               });
+            });
+      });
+   })
 });
 
 //Setup image

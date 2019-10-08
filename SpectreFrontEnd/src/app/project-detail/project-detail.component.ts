@@ -72,7 +72,17 @@ export class ProjectDetailComponent implements OnInit {
     console.log(event);
     this.selectedFile = <File>event.target.files[0];
   }
-
+  DeleteComment(id_comment: String){
+    //deleteComment
+    axios.post('http://localhost:8000/deleteComment', { id_comment: id_comment })
+          .then(function (response) {
+            console.log(response.data['message']);
+            location.reload();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+  }
   SendReact(id_user: String, user_name: String, profile_picture: String, react: Number) {
     let url = 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react' + react + '.svg?alt=media&token=57f0fd2a-30f4-469c-8371-d30e66a47975';
     axios.post('http://localhost:8000/sendComment', { id_user: id_user, typeReact: react, id_project: this.project[0]._id, user_name: user_name, image_url: url, profile_picture: profile_picture })
