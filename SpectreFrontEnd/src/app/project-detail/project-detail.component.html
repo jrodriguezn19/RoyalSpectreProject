@@ -37,7 +37,7 @@
 <div *ngFor="let project of project" class="card shadow p-3 mb-5 bg-white rounded" style="width: 90%;">
     <img src="{{project.image_url}}" class="card-img-top" alt="...">
     <div class="card-body">
-        <p class="card-text text-right"><small class="text-muted">17 August 2019</small></p>
+        <p class="card-text text-right"><small class="text-muted"></small></p>
     </div>
     <ul *ngFor="let comment of comments" class="list-group list-group-flush">
         <li class="list-group-item">
@@ -49,7 +49,7 @@
                 </div>
                 <div *ngIf="auth.userProfile$ | async as profile">
                     <div *ngIf="profile.sub === comment.id_user">
-                        <button type="button" (click)="DeleteComment(comment._id)" class="btn btn-outline-danger">Delete</button>
+                        <button type="button" data-toggle="modal" data-target="#deletingScreen" (click)="DeleteComment(comment._id)" class="btn btn-outline-danger">Delete</button>
                     </div>
 
                 </div>
@@ -190,3 +190,26 @@
         <h1 class="text-white">Sending</h1>
     </div>
 </div>
+
+<div class="modal fade" id="deletingScreen" aria-hidden="true">
+        <div class="d-flex justify-content-center" style="margin-top: 20%;">
+            <div class="spinner-grow text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-info" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <h1 class="text-white">Deleting</h1>
+        </div>
+    </div>

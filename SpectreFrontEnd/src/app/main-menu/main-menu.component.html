@@ -1,4 +1,5 @@
 <br>
+<br>
 <!-- Example split danger button -->
 <div class="btn-group" float-right>
     <button type="button" class="btn btn-primary">{{sortBy}}</button>
@@ -20,11 +21,11 @@
       <div class="col">
         <h5 class="card-title">{{project.user_name}}</h5>
         <h5 class="text-left">{{project.current_fund}}/{{project.target_fund}}</h5>
-        <p class="card-text">30 Participants</p>
+        <p class="card-text"></p>
        
       </div>
       <div class="col text-right">
-        <p class="card-text">Commented by {{project.total_comment}}</p>
+        <p class="card-text">Popularity {{project.score_comment_react}}</p>
         <button href="#" class="btn btn-danger mr-1">Like</button>
         <button [routerLink]="['/project-detail', project._id]" class="btn btn-primary">See Project</button>
       </div>

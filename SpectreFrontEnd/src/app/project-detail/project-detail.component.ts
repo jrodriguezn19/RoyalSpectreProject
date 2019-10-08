@@ -30,6 +30,7 @@ export class ProjectDetailComponent implements OnInit {
       filter((event: RouterEvent) => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.getDetailProject();
+      this.getComment();
     });
     //#1 finish
     this.paramsSub = this.activatedRoute.params.subscribe(params => this.id = params['id']);

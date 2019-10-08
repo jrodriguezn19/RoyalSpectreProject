@@ -201,11 +201,8 @@ app.post('/sendComment', async (req, res) => {
                UsersStatistic.updateOne(
                   { id_user: id_user_update },
                   { $set: { "score_comment_react": total_comment } }).then(function (result) {
-                     Comments.deleteMany(
-                        { id_project: req.body.id_project }
-                     ).then(result4 => {
-                        res.send("New comment added");
-                     })
+                     res.send("New comment added");
+                     
                });
                
 
@@ -313,7 +310,12 @@ app.post('/deleteProject', async (req, res) => {
                   { id_user: result.id_user },
                   { $set: { "score_comment_react": new_score } }
                ).then(result3 => {
-                  res.send({ message: "Project Deleted" });
+                  Comments.deleteMany(
+                     { id_project: req.body.id_project }
+                  ).then(result4 => {
+                     res.send({ message: "Project Deleted" });
+                  })
+                  
                })
             })
 
