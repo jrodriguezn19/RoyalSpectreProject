@@ -14,11 +14,11 @@ export class SideMenuComponent implements OnInit {
   projectsUpdated =new Subject<Project[]>();
   users: User[] = [];
   usersUpdated =new Subject<User[]>();
-  sortBy : String = "newest";
+  //sortBy : String = "newest";
   constructor() { }
 
   ngOnInit() {
-    localStorage.setItem('sortBy', 'popular');
+    //localStorage.setItem('sortBy', 'popular');
     Axios.get<{message: string, projects: Project[]}>('http://localhost:8000/projectPopularSideMenu')
     .then((projectData) => {
       this.projects = projectData.data.projects;
@@ -33,6 +33,8 @@ export class SideMenuComponent implements OnInit {
       console.log(this.users);
       
     });
+
+    
   }
 
 }
