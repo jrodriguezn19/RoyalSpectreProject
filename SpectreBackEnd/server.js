@@ -16,6 +16,7 @@ const Projects = require('./model/projects');
 const Images = require('./model/images');
 const Comments = require('./model/comments');
 const Identifications = require('./model/identifications');
+const UsersStatistic = require('./model/usersStatistic');
 
 //Connect to database in cloud
 mongoose.connect("mongodb+srv://Ivan:ProjectSpectre@spectre-h7vto.mongodb.net/Spectre?retryWrites=true&w=majority")
@@ -51,46 +52,120 @@ app.use(morgan('combined'));
 // Set up Auth0 configuration
 const authConfig = {
    domain: "dev-q39f5c5h.au.auth0.com",
+   
    audience: "https://profiles-api"
 };
 
-app.get('/project', async (req, res) => {
-   Projects.find().then(document => {
+app.get('/projectNewest', async (req, res) => {
+   Projects.find().sort({ '_id': -1 }).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
       });
    })
-   
-});
-app.post('/selectedProject', async (req, res) => {
-   Projects.find({_id: req.body.id})
-   .then(document => {
-      res.status(200).json({
-         message: "Project fetch Successfully",
-         project: document
-      });
-   })
+
 });
 
-app.post('/projectUser', async (req, res) => {
-   Projects.find({id_user: req.body.id_user}).then(document => {
+app.get('/projectPopular', async (req, res) => {
+   Projects.find().sort({ 'score_comment_react': -1 }).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
       });
+   })
+
+});
+app.get('/projectPopularSideMenu', async (req, res) => {
+   Projects.find().sort({ 'score_comment_react': -1 }).limit(6).then(document => {
+      res.status(200).json({
+         message: "Project fetch Successfully",
+         projects: document
+      });
+   })
+
+});
+
+app.get('/peoplePopularSideMenu', async (req, res) => {
+   UsersStatistic.find().sort({ 'score_comment_react': -1 }).limit(6).then(document => {
+      res.status(200).json({
+         message: "Project fetch Successfully",
+         users: document
+      });
+   })
+
+});
+app.post('/selectedProject', async (req, res) => {
+   Projects.find({ _id: req.body.id_project })
+      .then(document => {
+         res.status(200).json({
+            message: "Project fetch Successfully",
+            project: document
+         });
+      })
+});
+
+app.post('/retrieveComments', async (req, res) => {
+   Comments.find({ id_project: req.body.id_project })
+      .then(document => {
+         res.status(200).json({
+            message: "Project fetch Successfully",
+            comments: document
+         });
+      })
+});
+app.post('/projectUser', async (req, res) => {
+   Projects.find({ id_user: req.body.id_user }).sort({ '_id': -1 }).then(document => {
+      res.status(200).json({
+         message: "Project fetch Successfully",
+         projects: document
+      });
+   })
+});
+app.post('/detailUser', async (req, res) => {
+   UsersStatistic.findOne({ id_user: req.body.id_user }).then(document => {
+      res.send(document);
+      
    })
 });
 
 app.post('/sendComment', async (req, res) => {
    let id_user_init = '';
    let user_name_init = '';
-   if(req.body.id_user === null){
+   let score = 2;
+
+   switch (req.body.typeReact > 0) {
+      case req.body.typeReact === null: {
+         score = 2;
+         break;
+      }
+      case req.body.typeReact === 1: {
+         score = 15;
+         break;
+      }
+      case req.body.typeReact === 2: {
+         score = 7;
+         break;
+      }
+      case req.body.typeReact === 3: {
+         score = 1;
+         break;
+      }
+      case req.body.typeReact === 4: {
+         score = -7;
+         break;
+      }
+      default: {
+         score = -15
+         break;
+      }
+   }
+
+   if (req.body.id_user === null) {
       id_user_init = 'Anonymous';
    } else {
       id_user_init = req.body.id_user;
    }
-   if(req.body.user_name === null){
+   if (req.body.user_name === null) {
       user_name_init = 'Anonymous';
    } else {
       user_name_init = req.body.user_name;
@@ -99,11 +174,43 @@ app.post('/sendComment', async (req, res) => {
    const comment = new Comments({
       id_user: id_user_init,
       user_name: user_name_init,
+      profile_picture: req.body.profile_picture,
+      id_project: req.body.id_project,
+      comment_value: score,
       image_url: req.body.image_url,
       date: date.getHours()
    });
    comment.save();
-   res.send({message: "successfully"});
+
+
+
+   Projects.findOne({ _id: mongoose.Types.ObjectId(req.body.id_project) }).then(document => {
+      console.log(document.score_comment_react);
+      let lastTotalComment = document.score_comment_react + score;
+      console.log(lastTotalComment);
+      let id_user_update = document.id_user;
+      //res.send(newImageNumber.toString());
+      Projects.updateOne(
+         { _id: mongoose.Types.ObjectId(req.body.id_project) },
+         { $set: { "score_comment_react": lastTotalComment } }).then(function (result) {
+            console.log("this is user id " + id_user_update);
+            UsersStatistic.findOne({ id_user: id_user_update }).then(document2 => {
+               //console.log("this is score before " + document2.score_comment_react.toString());
+               let total_comment = document2.score_comment_react + score;
+               //console.log("this is score after " + total_comment.toString());
+               UsersStatistic.updateOne(
+                  { id_user: id_user_update },
+                  { $set: { "score_comment_react": total_comment } }).then(function (result) {
+                     res.send("New comment added");
+                     
+               });
+               
+
+            });
+         });
+   });
+
+
 })
 
 // check JSON Web Tokens
@@ -157,9 +264,64 @@ app.post('/createProject', async (req, res) => {
    });
 
    project.save();
-   console.log("Finish");
+
+   UsersStatistic.findOne({ id_user: req.body.id_user }).then(document => {
+      if (!document) {
+         const userStats = new UsersStatistic({
+            id_user: req.body.id_user,
+            user_name: req.body.user_name,
+            image_url: req.body.photo_profile
+         });
+
+         userStats.save();
+         res.send("User added");
+      } else {
+         let total_project = document.total_project + 1;
+         Projects.updateOne(
+            { id_user: req.body.id_user },
+            { $set: { "total_project": total_project } }).then(function (result) {
+               res.send("New project added");
+            });
+      }
+   });
 
 
+
+});
+
+//Delete Project
+app.post('/deleteProject', async (req, res) => {
+   Comments.find({ comment_value: { $gt: 1, $lt: 3 }, id_project: mongoose.Types.ObjectId(req.body.id_project) }
+   ).then(document => {
+      console.log(document);
+      if (document[0] !== undefined) {
+         res.send({ message: "Cannot delete project, because it contains comment" });
+      } else {
+         Projects.findOneAndDelete(
+            { _id: mongoose.Types.ObjectId(req.body.id_project) }
+         ).then(result => {
+            let old_score = result.score_comment_react;
+            console.log("Update " + result.id_user);
+            UsersStatistic.findOne({ id_user: result.id_user }).then(result2 => {
+               let new_score = result2.score_comment_react - old_score;
+               console.log("OLD SCORE " + old_score);
+               console.log("NEW SCORE " + new_score);
+               UsersStatistic.updateOne(
+                  { id_user: result.id_user },
+                  { $set: { "score_comment_react": new_score } }
+               ).then(result3 => {
+                  Comments.deleteMany(
+                     { id_project: req.body.id_project }
+                  ).then(result4 => {
+                     res.send({ message: "Project Deleted" });
+                  })
+                  
+               })
+            })
+
+         })
+      }
+   })
 });
 
 //Get image name
@@ -170,7 +332,7 @@ app.post('/imageName', async (req, res) => {
       let newImageNumber = lastImageNumber + 1;
       //res.send(newImageNumber.toString());
       Identifications.updateOne(
-         { _id: '5d984cd01c9d4400009e2415' },
+         { _id: '5d9bf08b1c9d440000dedab9' },
          {
             $set: { 'last_id': newImageNumber },
             $currentDate: { lastModified: true }
@@ -179,6 +341,39 @@ app.post('/imageName', async (req, res) => {
          res.send(newImageNumber.toString());
       });
    });
+});
+
+//Delete Comment
+app.post('/deleteComment', async (req, res) => {
+   Comments.findOneAndDelete(
+      { "_id": mongoose.Types.ObjectId(req.body.id_comment) }
+   ).then(result => {
+      Projects.findOne({ _id: mongoose.Types.ObjectId(result.id_project) }).then(document => {
+         console.log("Before " + document.score_comment_react);
+         let new_score = document.score_comment_react - result.comment_value;
+         console.log("After " + new_score);
+         let id_user_update = document.id_user;
+         let that = this;
+         Projects.updateOne(
+            { _id: mongoose.Types.ObjectId(result.id_project) },
+            { $set: { score_comment_react: new_score } }).then(function (result2) {
+               console.log("Updated " + new_score);
+               console.log("this is user id " + id_user_update);
+               UsersStatistic.findOne({ id_user: id_user_update }).then(document2 => {
+                  //console.log("this is score before " + document2.score_comment_react.toString());
+                  let total_comment = document2.score_comment_react - result.comment_value;
+                  let that2 = this;
+                  //console.log("this is score after " + total_comment.toString());
+                  UsersStatistic.updateOne(
+                     { id_user: id_user_update },
+                     { $set: { score_comment_react: total_comment } }).then(function (result) {
+                        res.send("New comment added");
+                     });
+
+               });
+            });
+      });
+   })
 });
 
 //Setup image

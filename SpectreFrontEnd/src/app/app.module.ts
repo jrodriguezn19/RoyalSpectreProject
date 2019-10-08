@@ -19,6 +19,7 @@ import { ExternalApiComponent } from './external-api/external-api.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
+import { ProfileAnonymousComponent } from './profile-anonymous/profile-anonymous.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { environment } from '../environments/environment';
     LoginComponent,
     NavBarComponent,
     CallbackComponent,
-    ExternalApiComponent
+    ExternalApiComponent,
+    ProfileAnonymousComponent
   ],
   imports: [
     BrowserModule,

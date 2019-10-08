@@ -19,34 +19,31 @@
       </li>
       <li class="nav-item">
         <br>
-        <a class="nav-link" routerLink="" (click)="auth.login()" *ngIf="!auth.loggedIn">Login/Sign up</a>
+        <a class="nav-link" routerLink="" (click)="auth.login()" *ngIf="!auth.loggedIn">Login / Sign Up</a>
         <a class="nav-link" routerLink="" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a>&nbsp;
       </li>
       <li class="nav-item">
         <br>
-        <a class="nav-link" routerLink="external-api" *ngIf="auth.loggedIn">Post</a>
+        
       </li>
     </ul>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li>
-        <a class="nav-link" *ngIf="!auth.loggedIn"> 
-          <img src="../assets/images/logo2.png" width="60" height="45" alt="">
-          You Are Anonymous
-        </a>
-        <a *ngIf="auth.loggedIn">
-          <div *ngIf="auth.userProfile$ | async as profile">
-            <a [routerLink]="['/profile', profile.sub]">
-            <img src="{{ profile.picture }}" width="50" height="45" alt="...">
-            {{profile.nickname}}
-          </a>
-          </div>
-        </a>
+        
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <a class="nav-link text-white" *ngIf="!auth.loggedIn"> 
+        <img src="../assets/images/logo2.png" width="60" height="45" alt="">
+        You Are Anonymous
+      </a>
+      <a class="form-inline my-2 my-lg-0" *ngIf="auth.loggedIn">
+        <div *ngIf="auth.userProfile$ | async as profile">
+          <a class="btn btn-light" [routerLink]="['/profile', profile.sub]">
+          <img class="mr-2" src="{{ profile.picture }}" width="50" alt="...">
+          <strong>{{profile.nickname}}</strong>
+        </a>
+        </div>
+      </a>
   </div>
 </nav>
 

@@ -1,0 +1,154 @@
+<!--Jumbotron for profile information-->
+
+<br>
+<br>
+<div >
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{users.image_url}}" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{users.user_name}}</h5>
+        <p class="card-text"></p>
+          
+        <p class="card-text"><small class="text-muted">{{users.score_comment_react}}</small></p>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+  <!--Heading for project carousel-->
+
+  <div>
+      
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <span class="navbar-brand mb-0 h1">Current Projects</span>
+      
+    </nav>
+    <br>
+    <a class="btn btn-primary btn-lg float-right" routerLink="" data-toggle="modal" data-target="#newproject">New Project</a>
+    <br>
+  </div>
+  
+  <br>
+  <br>
+  <div *ngFor="let project of projects" class="card shadow p-3 mb-5 bg-white rounded" style="margin-bottom: 4%;">
+    <img src="{{project.image_url}}" class="card-img-top" alt="...">
+    <div class="card-body">
+  
+      <div class="row">
+        <div class="col">
+          <h5 class="card-title">{{project.user_name}}</h5>
+          <h5 class="text-left">{{project.current_fund}}/{{project.target_fund}}</h5>
+        </div>
+        <div class="col text-right">
+          <p class="card-text">Popularity {{project.score_comment_react}}</p>
+          </div>
+  
+      </div>
+       
+          <button  [routerLink]="['/project-detail', project._id]" class=" float-right btn btn-primary">See Project</button>
+    </div>
+  </div>
+  
+  <!--Carousel for project presentation with 3 items-->
+
+
+
+
+
+  <div class="modal fade" id="newproject" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content ">
+        <div class="modal-header ">
+          <h5 class="modal-title" id="exampleModalLabel">New Project</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form name="register">
+
+            <div class="form-group">
+              <label for="project" class="col-form-label">Target Fund</label>
+              <input [(ngModel)]="target_fund" type="number" [ngModelOptions]="{standalone: true}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="project" class="col-form-label">Status</label>
+                <select class="form-control" [(ngModel)]="status" [ngModelOptions]="{standalone: true}" id="exampleFormControlSelect1">
+                  <option>Idea</option>
+                  <option>Concept</option>
+                  <option>Pre-Flight</option>
+                  <option>Launched</option>
+                </select>
+              </div>
+              <label for="project" class="col-form-label">Choose Image</label>
+              <div class="input-group mb-3">
+                  
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile03" (change)="onFileSelected($event)" aria-describedby="inputGroupFileAddon03">
+                  <label class="custom-file-label" for="inputGroupFile03">Choosen Image</label>
+                </div>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <span data-dismiss="modal" aria-label="Close" (click)="CreateProject(profile.sub, profile.nickname, profile.picture)" data-toggle="modal"
+          data-target="#loadingScreen" class="btn btn-primary">Create</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="loadingScreen" aria-hidden="true">
+    <div class="d-flex justify-content-center" style="margin-top: 20%;">
+        <div class="spinner-grow text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h1 class="text-white">Creating</h1>
+    </div>
+</div>
+
+<div class="modal fade" id="deletingScreen" aria-hidden="true">
+    <div class="d-flex justify-content-center" style="margin-top: 20%;">
+        <div class="spinner-grow text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h1 class="text-white">Deleting</h1>
+    </div>
+</div>
