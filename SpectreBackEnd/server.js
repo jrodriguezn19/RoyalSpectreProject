@@ -16,6 +16,7 @@ const Projects = require('./model/projects');
 const Images = require('./model/images');
 const Comments = require('./model/comments');
 const Identifications = require('./model/identifications');
+const UsersStatistic = require('./model/usersStatistic');
 
 //Connect to database in cloud
 mongoose.connect("mongodb+srv://Ivan:ProjectSpectre@spectre-h7vto.mongodb.net/Spectre?retryWrites=true&w=majority")
@@ -55,54 +56,64 @@ const authConfig = {
 };
 
 app.get('/projectNewest', async (req, res) => {
-   Projects.find().sort( { '_id': -1 } ).then(document => {
+   Projects.find().sort({ '_id': -1 }).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
       });
    })
-   
+
 });
 
 app.get('/projectPopular', async (req, res) => {
-   Projects.find().sort( { 'total_comment': -1 } ).then(document => {
+   Projects.find().sort({ 'score_comment_react': -1 }).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
       });
    })
-   
+
 });
 app.get('/projectPopularSideMenu', async (req, res) => {
-   Projects.find().sort( { 'total_comment': -1 } ).limit(6).then(document => {
+   Projects.find().sort({ 'score_comment_react': -1 }).limit(6).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
       });
    })
-   
+
 });
-app.post('/selectedProject', async (req, res) => {
-   Projects.find({_id: req.body.id_project})
-   .then(document => {
+
+app.get('/peoplePopularSideMenu', async (req, res) => {
+   UsersStatistic.find().sort({ 'score_comment_react': -1 }).limit(6).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
-         project: document
+         users: document
       });
    })
+
+});
+app.post('/selectedProject', async (req, res) => {
+   Projects.find({ _id: req.body.id_project })
+      .then(document => {
+         res.status(200).json({
+            message: "Project fetch Successfully",
+            project: document
+         });
+      })
 });
 
 app.post('/retrieveComments', async (req, res) => {
-   Comments.find({id_project: req.body.id_project})
-   .then(document => {
-      res.status(200).json({
-         message: "Project fetch Successfully",
-         comments: document
-      });
-   })
+   Comments.find({ id_project: req.body.id_project })
+      .then(document => {
+         res.status(200).json({
+            message: "Project fetch Successfully",
+            comments: document
+         });
+      })
 });
 app.post('/projectUser', async (req, res) => {
-   Projects.find({id_user: req.body.id_user}).sort( { '_id': -1 } ).then(document => {
+   Projects.find({ id_user: req.body.id_user }).sort({ '_id': -1 }).then(document => {
       res.status(200).json({
          message: "Project fetch Successfully",
          projects: document
@@ -113,12 +124,37 @@ app.post('/projectUser', async (req, res) => {
 app.post('/sendComment', async (req, res) => {
    let id_user_init = '';
    let user_name_init = '';
-   if(req.body.id_user === null){
+   let score = 2;
+
+   switch(req.body.typeReact > 0) { 
+      case req.body.typeReact === 1: { 
+         score = 15; 
+         break; 
+      } 
+      case req.body.typeReact === 2: { 
+         score = 7; 
+         break; 
+      } 
+      case req.body.typeReact === 3: { 
+         score = 2; 
+         break; 
+      } 
+      case req.body.typeReact === 4: { 
+         score = -7; 
+         break; 
+      } 
+      default: { 
+         score = -15
+         break; 
+      } 
+   } 
+
+   if (req.body.id_user === null) {
       id_user_init = 'Anonymous';
    } else {
       id_user_init = req.body.id_user;
    }
-   if(req.body.user_name === null){
+   if (req.body.user_name === null) {
       user_name_init = 'Anonymous';
    } else {
       user_name_init = req.body.user_name;
@@ -134,21 +170,33 @@ app.post('/sendComment', async (req, res) => {
    });
    comment.save();
 
- 
 
-   Projects.findOne({_id: mongoose.Types.ObjectId(req.body.id_project)}).then(document => {
-      console.log(document.total_comment);
-      let lastTotalComment = document.total_comment + 1;
+
+   Projects.findOne({ _id: mongoose.Types.ObjectId(req.body.id_project) }).then(document => {
+      console.log(document.score_comment_react);
+      let lastTotalComment = document.score_comment_react + score;
       console.log(lastTotalComment);
+      let id_user_update = document.id_user;
       //res.send(newImageNumber.toString());
       Projects.updateOne(
-         {_id: mongoose.Types.ObjectId(req.body.id_project)},
-         {$set: { "total_comment" : lastTotalComment}}).then(function (result) {
-            res.send(result.toString());
+         { _id: mongoose.Types.ObjectId(req.body.id_project) },
+         { $set: { "score_comment_react": lastTotalComment } }).then(function (result) {
+            console.log("this is user id " + id_user_update);
+            UsersStatistic.findOne({ id_user: id_user_update }).then(document2 => {
+               //console.log("this is score before " + document2.score_comment_react.toString());
+               let total_comment = document2.score_comment_react + score;
+               //console.log("this is score after " + total_comment.toString());
+               UsersStatistic.updateOne(
+                  { id_user: id_user_update },
+                  { $set: { "score_comment_react": total_comment } }).then(function (result) {
+                     res.send("New comment added");
+                  });
+
+            });
          });
    });
-   
-   
+
+
 })
 
 // check JSON Web Tokens
@@ -202,7 +250,27 @@ app.post('/createProject', async (req, res) => {
    });
 
    project.save();
-   console.log("Finish");
+
+   UsersStatistic.findOne({ id_user: req.body.id_user }).then(document => {
+      if (!document) {
+         const userStats = new UsersStatistic({
+            id_user: req.body.id_user,
+            user_name: req.body.user_name,
+            image_url: req.body.photo_profile
+         });
+
+         userStats.save();
+         res.send("User added");
+      } else {
+         let total_project = document.total_project + 1;
+         Projects.updateOne(
+            { id_user: req.body.id_user },
+            { $set: { "total_project": total_project } }).then(function (result) {
+               res.send("New project added");
+            });
+      }
+   });
+
 
 
 });
