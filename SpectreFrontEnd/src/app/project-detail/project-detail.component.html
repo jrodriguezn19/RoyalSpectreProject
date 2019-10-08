@@ -99,6 +99,37 @@
                     <button type="submit"
                         (click)="SendComment('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2')"
                         class="btn btn-primary mt-2" data-toggle="modal" data-target="#loadingScreen">Submit</button>
+                        <button class="mt-2 float-right btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Quick React
+                    </button>
+                    <div class="dropdown-menu">
+                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 1)" class="dropdown-item">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react1.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
+                                class="rounded-sm" width="30%" alt="...">
+                            Love
+                        </a>
+                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 2)" class="dropdown-item">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react2.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
+                                class="rounded-sm" width="30%" alt="...">
+                            Like
+                        </a>
+                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 3)" class="dropdown-item">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react3.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
+                                class="rounded-sm" width="30%" alt="...">
+                            Neutral
+                        </a>
+                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 4)" class="dropdown-item">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react4.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
+                                class="rounded-sm" width="30%" alt="...">
+                            Dislike
+                        </a>
+                        <a data-toggle="modal" data-target="#loadingScreen" (click)="SendReact('Anonymous', 'Anonymous', 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/30816086.jpeg?alt=media&token=4877fc72-ee74-41e7-924c-645fde030bc2', 5)" class="dropdown-item">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react5.svg?alt=media&token=3de75289-30ef-4bf7-a2bb-adf682d9d53b"
+                                class="rounded-sm" width="30%" alt="...">
+                            Heart Break
+                        </a>
+                    </div>
                 </ng-template>
 
             </form>
