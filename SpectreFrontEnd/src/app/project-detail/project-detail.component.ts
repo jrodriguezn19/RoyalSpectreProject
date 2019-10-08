@@ -59,6 +59,7 @@ export class ProjectDetailComponent implements OnInit {
         console.log(this.comments);
       });
   }
+  
   imageUpload: String = '';
 
   fileData: File = null;
@@ -72,9 +73,18 @@ export class ProjectDetailComponent implements OnInit {
     this.selectedFile = <File>event.target.files[0];
   }
 
+  SendReact(id_user: String, user_name: String, profile_picture: String, react: Number) {
+    let url = 'https://firebasestorage.googleapis.com/v0/b/royalspectreproject.appspot.com/o/react' + react + '.svg?alt=media&token=57f0fd2a-30f4-469c-8371-d30e66a47975';
+    axios.post('http://localhost:8000/sendComment', { id_user: id_user, typeReact: react, id_project: this.project[0]._id, user_name: user_name, image_url: url, profile_picture: profile_picture })
+          .then(function (response) {
+            console.log(response.data['message']);
+            location.reload();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+  }
   SendComment(id_user: String, user_name: String, profile_picture: String) {
-
-
     //alert(Object.values(this.project)[0]);
     console.log(this.project[0]._id);
 
@@ -92,7 +102,7 @@ export class ProjectDetailComponent implements OnInit {
           console.log(res);
           location.reload();
         })
-        axios.post('http://localhost:8000/sendComment', { id_user: id_user, id_project: that.project[0]._id, user_name: user_name, image_url: url, profile_picture: profile_picture })
+        axios.post('http://localhost:8000/sendComment', { id_user: id_user, typeReact: 0, id_project: that.project[0]._id, user_name: user_name, image_url: url, profile_picture: profile_picture })
           .then(function (response) {
             console.log(response.data['message']);
             
