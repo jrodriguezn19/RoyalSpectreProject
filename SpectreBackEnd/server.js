@@ -52,6 +52,7 @@ app.use(morgan('combined'));
 // Set up Auth0 configuration
 const authConfig = {
    domain: "dev-q39f5c5h.au.auth0.com",
+   
    audience: "https://profiles-api"
 };
 
@@ -120,34 +121,44 @@ app.post('/projectUser', async (req, res) => {
       });
    })
 });
+app.post('/detailUser', async (req, res) => {
+   UsersStatistic.findOne({ id_user: req.body.id_user }).then(document => {
+      res.send(document);
+      
+   })
+});
 
 app.post('/sendComment', async (req, res) => {
    let id_user_init = '';
    let user_name_init = '';
    let score = 2;
 
-   switch(req.body.typeReact > 0) { 
-      case req.body.typeReact === 1: { 
-         score = 15; 
-         break; 
-      } 
-      case req.body.typeReact === 2: { 
-         score = 7; 
-         break; 
-      } 
-      case req.body.typeReact === 3: { 
-         score = 2; 
-         break; 
-      } 
-      case req.body.typeReact === 4: { 
-         score = -7; 
-         break; 
-      } 
-      default: { 
+   switch (req.body.typeReact > 0) {
+      case req.body.typeReact === null: {
+         score = 2;
+         break;
+      }
+      case req.body.typeReact === 1: {
+         score = 15;
+         break;
+      }
+      case req.body.typeReact === 2: {
+         score = 7;
+         break;
+      }
+      case req.body.typeReact === 3: {
+         score = 1;
+         break;
+      }
+      case req.body.typeReact === 4: {
+         score = -7;
+         break;
+      }
+      default: {
          score = -15
-         break; 
-      } 
-   } 
+         break;
+      }
+   }
 
    if (req.body.id_user === null) {
       id_user_init = 'Anonymous';
@@ -190,8 +201,13 @@ app.post('/sendComment', async (req, res) => {
                UsersStatistic.updateOne(
                   { id_user: id_user_update },
                   { $set: { "score_comment_react": total_comment } }).then(function (result) {
-                     res.send("New comment added");
-                  });
+                     Comments.deleteMany(
+                        { id_project: req.body.id_project }
+                     ).then(result4 => {
+                        res.send("New comment added");
+                     })
+               });
+               
 
             });
          });
@@ -276,6 +292,36 @@ app.post('/createProject', async (req, res) => {
 
 });
 
+//Delete Project
+app.post('/deleteProject', async (req, res) => {
+   Comments.find({ comment_value: { $gt: 1, $lt: 3 }, id_project: mongoose.Types.ObjectId(req.body.id_project) }
+   ).then(document => {
+      console.log(document);
+      if (document[0] !== undefined) {
+         res.send({ message: "Cannot delete project, because it contains comment" });
+      } else {
+         Projects.findOneAndDelete(
+            { _id: mongoose.Types.ObjectId(req.body.id_project) }
+         ).then(result => {
+            let old_score = result.score_comment_react;
+            console.log("Update " + result.id_user);
+            UsersStatistic.findOne({ id_user: result.id_user }).then(result2 => {
+               let new_score = result2.score_comment_react - old_score;
+               console.log("OLD SCORE " + old_score);
+               console.log("NEW SCORE " + new_score);
+               UsersStatistic.updateOne(
+                  { id_user: result.id_user },
+                  { $set: { "score_comment_react": new_score } }
+               ).then(result3 => {
+                  res.send({ message: "Project Deleted" });
+               })
+            })
+
+         })
+      }
+   })
+});
+
 //Get image name
 app.post('/imageName', async (req, res) => {
    Identifications.find().then(document => {
@@ -298,7 +344,7 @@ app.post('/imageName', async (req, res) => {
 //Delete Comment
 app.post('/deleteComment', async (req, res) => {
    Comments.findOneAndDelete(
-      { "_id" : mongoose.Types.ObjectId(req.body.id_comment) }
+      { "_id": mongoose.Types.ObjectId(req.body.id_comment) }
    ).then(result => {
       Projects.findOne({ _id: mongoose.Types.ObjectId(result.id_project) }).then(document => {
          console.log("Before " + document.score_comment_react);
@@ -318,10 +364,10 @@ app.post('/deleteComment', async (req, res) => {
                   //console.log("this is score after " + total_comment.toString());
                   UsersStatistic.updateOne(
                      { id_user: id_user_update },
-                     { $set: { score_comment_react:  total_comment } }).then(function (result) {
+                     { $set: { score_comment_react: total_comment } }).then(function (result) {
                         res.send("New comment added");
                      });
-   
+
                });
             });
       });

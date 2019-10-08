@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   
   
   ngOnInit() {
-
+    
     let that = this;
     this.paramsSub = this.activatedRoute.params.subscribe(params => this.id = params['id']);
    
@@ -81,5 +81,14 @@ export class ProfileComponent implements OnInit {
 
       
   }
-
+  DeleteProject(id_project: String) {
+    axios.post('http://localhost:8000/deleteProject', {id_project: id_project})
+      .then(document => {
+        alert(document.data.message);
+        location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 }

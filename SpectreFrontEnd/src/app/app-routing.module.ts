@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { CallbackComponent } from './callback/callback.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileAnonymousComponent } from './profile-anonymous/profile-anonymous.component';
 import { AuthGuard } from './auth.guard';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './interceptor.service';
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'project-detail/:id', component: ProjectDetailComponent },
   { path: 'callback', component: CallbackComponent},
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
+  { path: 'profileAnonymous/:id', component: ProfileAnonymousComponent},
+  
   { path: 'external-api', component: ExternalApiComponent, canActivate: [AuthGuard]}
 ];
 
