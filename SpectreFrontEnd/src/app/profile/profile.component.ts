@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
     this.selectedFile = <File>event.target.files[0];
   }
 
-  CreateProject(id_user: String, user_name: String) {
+  CreateProject(id_user: String, user_name: String, photo_profile: String) {
     
     let fileName = 'uio';
     let ext = this.selectedFile.name.split('.')[1];
@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
           console.log(res);
           location.reload();
         })
-        axios.post('http://localhost:8000/createProject', { user_name: user_name, id_user: id_user, target_fund: that.target_fund, status: that.status, image_url: url })
+        axios.post('http://localhost:8000/createProject', { user_name: user_name,photo_profile: photo_profile, id_user: id_user, target_fund: that.target_fund, status: that.status, image_url: url })
           .then(function (response) {
             console.log(response.data['message']);
           })
