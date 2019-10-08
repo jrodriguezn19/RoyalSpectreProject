@@ -215,7 +215,7 @@ app.post('/imageName', async (req, res) => {
       let newImageNumber = lastImageNumber + 1;
       //res.send(newImageNumber.toString());
       Identifications.updateOne(
-         { _id: '5d984cd01c9d4400009e2415' },
+         { _id: '5d9bf08b1c9d440000dedab9' },
          {
             $set: { 'last_id': newImageNumber },
             $currentDate: { lastModified: true }
