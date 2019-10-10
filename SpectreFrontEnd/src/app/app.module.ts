@@ -15,10 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HttpClientModule }    from '@angular/common/http';
 import { CallbackComponent } from './callback/callback.component';
-import { ExternalApiComponent } from './external-api/external-api.component';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
-import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire'; //Firebase Basic module import
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage'; //Firebase Storage module import
+import { environment } from '../environments/environment'; 
 import { ProfileAnonymousComponent } from './profile-anonymous/profile-anonymous.component';
 
 @NgModule({
@@ -33,7 +32,6 @@ import { ProfileAnonymousComponent } from './profile-anonymous/profile-anonymous
     LoginComponent,
     NavBarComponent,
     CallbackComponent,
-    ExternalApiComponent,
     ProfileAnonymousComponent
   ],
   imports: [
@@ -41,11 +39,11 @@ import { ProfileAnonymousComponent } from './profile-anonymous/profile-anonymous
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireStorageModule // imports firebase/storage only needed for storage features
+    AngularFireModule.initializeApp(environment.firebase), 
+    AngularFireStorageModule 
   ],
   providers: [
-    { provide: StorageBucket, useValue: 'gs://royalspectreproject.appspot.com/' }
+    { provide: StorageBucket, useValue: 'gs://royalspectreproject.appspot.com/' } //Firebase Storage Bucket configured
   ],
   bootstrap: [AppComponent]
 })

@@ -11,7 +11,6 @@ import { ProfileAnonymousComponent } from './profile-anonymous/profile-anonymous
 import { AuthGuard } from './auth.guard';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './interceptor.service';
-import { ExternalApiComponent } from './external-api/external-api.component';
 
 const routes: Routes = [
   
@@ -20,8 +19,6 @@ const routes: Routes = [
   { path: 'callback', component: CallbackComponent},
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'profileAnonymous/:id', component: ProfileAnonymousComponent},
-  
-  { path: 'external-api', component: ExternalApiComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
