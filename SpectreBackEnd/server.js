@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+var router = express.Router();
 const helmet = require('helmet');
 const morgan = require('morgan');
 const jwt = require('express-jwt');
