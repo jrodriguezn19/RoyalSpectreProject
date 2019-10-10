@@ -430,5 +430,42 @@ startDatabase().then(async () => {
 })
 
 //add likes to project
+router.get('/project/', function (req, res) {
+
+   project.find({})
+       .then(data => {
+           res.send(data);
+       })
+       .catch(error => {
+           res.status(500).json({
+               error: error
+           });
+       })
+});
+
+router.put('/project/:projectName/likes/:likeCount', function (req, res) {
+   var projectName = req.params.projectName;
+   var count = req.params.likeCount;
+   count++;
+   console.log("here")
+   console.log(projectName + " " + count)
+   project.findOneAndUpdate({projectName: projectName}, {$set: {likes: count}}).then(data => {
+       if (data.length < 1) {
+           return res.status(400).json({
+               message: "Project not found",
+           });
+       }
+       else {
+           return res.status(200).json({
+               message: "Project likes updated successfully"
+           });
+       }
+   }).catch(error => {
+       res.status(500).json({
+           error: error
+       });
+   })
+});
+
 
 //How can i get all the user details?
