@@ -20,7 +20,7 @@ export class NavBarComponent implements OnInit {
   enteredEmail = '';
   enteredPassword = '';
   confirmPassword = '';
-
+  // Login function and send request to back-end
   login(){
     axios.post('http://localhost:8000/login' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
     .then(function (response) {
@@ -30,6 +30,7 @@ export class NavBarComponent implements OnInit {
       console.log(error);
     });
   }
+  // Register function and send request to back-end
   register(){
     axios.post('http://localhost:8000/register' , {userEmail: this.enteredEmail, userPassword: this.enteredPassword})
     .then(function (response) {
