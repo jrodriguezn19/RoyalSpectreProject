@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 const { startDatabase } = require('./database/mongo');
 const { insertProfile, getProfile, deleteProfile, updateProfile } = require('./database/profiles');
 
+//Initiate mongoose schema
 const Projects = require('./model/projects');
 const Images = require('./model/images');
 const Comments = require('./model/comments');
@@ -53,10 +54,10 @@ app.use(morgan('combined'));
 // Set up Auth0 configuration
 const authConfig = {
    domain: "dev-q39f5c5h.au.auth0.com",
-   
+
    audience: "https://profiles-api"
 };
-
+// A get funtion that result all projects sort by newest to oldest
 app.get('/projectNewest', async (req, res) => {
    Projects.find().sort({ '_id': -1 }).then(document => {
       res.status(200).json({
@@ -64,9 +65,8 @@ app.get('/projectNewest', async (req, res) => {
          projects: document
       });
    })
-
 });
-
+// A get funtion that result all projects sort by most popular to less popular
 app.get('/projectPopular', async (req, res) => {
    Projects.find().sort({ 'score_comment_react': -1 }).then(document => {
       res.status(200).json({
@@ -74,8 +74,8 @@ app.get('/projectPopular', async (req, res) => {
          projects: document
       });
    })
-
 });
+// A get funtion that result 6 projects sort by most popular to less popular for side-menu on front-end
 app.get('/projectPopularSideMenu', async (req, res) => {
    Projects.find().sort({ 'score_comment_react': -1 }).limit(6).then(document => {
       res.status(200).json({
@@ -83,9 +83,8 @@ app.get('/projectPopularSideMenu', async (req, res) => {
          projects: document
       });
    })
-
 });
-
+// A get funtion that result 6 people sort by most popular to less popular for side-menu on front-end
 app.get('/peoplePopularSideMenu', async (req, res) => {
    UsersStatistic.find().sort({ 'score_comment_react': -1 }).limit(6).then(document => {
       res.status(200).json({
@@ -93,8 +92,8 @@ app.get('/peoplePopularSideMenu', async (req, res) => {
          users: document
       });
    })
-
 });
+// a function that return selected project
 app.post('/selectedProject', async (req, res) => {
    Projects.find({ _id: req.body.id_project })
       .then(document => {
@@ -104,7 +103,7 @@ app.post('/selectedProject', async (req, res) => {
          });
       })
 });
-
+// a function that return all comments that contain in a project
 app.post('/retrieveComments', async (req, res) => {
    Comments.find({ id_project: req.body.id_project })
       .then(document => {
@@ -114,6 +113,7 @@ app.post('/retrieveComments', async (req, res) => {
          });
       })
 });
+// a function that return all projects from a user
 app.post('/projectUser', async (req, res) => {
    Projects.find({ id_user: req.body.id_user }).sort({ '_id': -1 }).then(document => {
       res.status(200).json({
@@ -122,18 +122,20 @@ app.post('/projectUser', async (req, res) => {
       });
    })
 });
+// a function that return detail of selected user
 app.post('/detailUser', async (req, res) => {
    UsersStatistic.findOne({ id_user: req.body.id_user }).then(document => {
       res.send(document);
-      
+
    })
 });
-
+// a function to store new comment
 app.post('/sendComment', async (req, res) => {
    let id_user_init = '';
    let user_name_init = '';
-   let score = 2;
+   let score = 2; // initiate default score for score_comment_react field
 
+   // Switch function to assign score based on comment or Quick React feature
    switch (req.body.typeReact > 0) {
       case req.body.typeReact === null: {
          score = 2;
@@ -160,7 +162,7 @@ app.post('/sendComment', async (req, res) => {
          break;
       }
    }
-
+   // Assign value as 'Anonymous' if the users who comment, are not login
    if (req.body.id_user === null) {
       id_user_init = 'Anonymous';
    } else {
@@ -172,6 +174,7 @@ app.post('/sendComment', async (req, res) => {
       user_name_init = req.body.user_name;
    }
    const date = new Date();
+   // Store the comment into schema
    const comment = new Comments({
       id_user: id_user_init,
       user_name: user_name_init,
@@ -182,37 +185,26 @@ app.post('/sendComment', async (req, res) => {
       date: date.getHours()
    });
    comment.save();
-
-
-
+   // Preparing update popularity of that project by either decrease or increase the score_comment_react field
    Projects.findOne({ _id: mongoose.Types.ObjectId(req.body.id_project) }).then(document => {
-      console.log(document.score_comment_react);
       let lastTotalComment = document.score_comment_react + score;
-      console.log(lastTotalComment);
       let id_user_update = document.id_user;
-      //res.send(newImageNumber.toString());
       Projects.updateOne(
          { _id: mongoose.Types.ObjectId(req.body.id_project) },
          { $set: { "score_comment_react": lastTotalComment } }).then(function (result) {
             console.log("this is user id " + id_user_update);
+             // Preparing update popularity of user who has that project by either decrease or increase the score_comment_react field
             UsersStatistic.findOne({ id_user: id_user_update }).then(document2 => {
-               //console.log("this is score before " + document2.score_comment_react.toString());
                let total_comment = document2.score_comment_react + score;
-               //console.log("this is score after " + total_comment.toString());
                UsersStatistic.updateOne(
                   { id_user: id_user_update },
                   { $set: { "score_comment_react": total_comment } }).then(function (result) {
                      res.send("New comment added");
-                     
-               });
-               
-
+                  });
             });
          });
-   });
-
-
-})
+      });
+   })
 
 // check JSON Web Tokens
 // JWT [Only checked for POST, DELETE, PUT endpoint. No authority required for GET request of this app to view]
@@ -236,14 +228,6 @@ app.get("/api/external", jwtCheck, (req, res) => {
 
    });
 });
-
-
-
-// Upload an image into a project
-app.post("/imageUpload", jwtCheck, (req, res) => {
-
-})
-
 // Only use to blanket check jwt for all code below. Currently jwtCheck captured in each HTTP request
 //app.use(jwtCheck);
 
@@ -252,9 +236,8 @@ app.get('/', async (req, res) => {
    res.send(await getProfile());
 });
 
-//Create New Project Ivan
+//Create New Project
 app.post('/createProject', async (req, res) => {
-
    const project = new Projects({
       id_user: req.body.id_user,
       user_name: req.body.user_name,
@@ -263,9 +246,8 @@ app.post('/createProject', async (req, res) => {
       current_fund: 0,
       status: req.body.status
    });
-
    project.save();
-
+   //Update user statistic or add new record if that user uploaded project for the first time
    UsersStatistic.findOne({ id_user: req.body.id_user }).then(document => {
       if (!document) {
          const userStats = new UsersStatistic({
@@ -273,7 +255,6 @@ app.post('/createProject', async (req, res) => {
             user_name: req.body.user_name,
             image_url: req.body.photo_profile
          });
-
          userStats.save();
          res.send("User added");
       } else {
@@ -285,9 +266,6 @@ app.post('/createProject', async (req, res) => {
             });
       }
    });
-
-
-
 });
 
 //Delete Project
@@ -295,6 +273,7 @@ app.post('/deleteProject', async (req, res) => {
    Comments.find({ comment_value: { $gt: 1, $lt: 3 }, id_project: mongoose.Types.ObjectId(req.body.id_project) }
    ).then(document => {
       console.log(document);
+      // Checking function to check a project is eligible to delete or not
       if (document[0] !== undefined) {
          res.send({ message: "Cannot delete project, because it contains comment" });
       } else {
@@ -303,35 +282,32 @@ app.post('/deleteProject', async (req, res) => {
          ).then(result => {
             let old_score = result.score_comment_react;
             console.log("Update " + result.id_user);
+            //Update user statistic by decrease score_comment_react field to update their popularity
             UsersStatistic.findOne({ id_user: result.id_user }).then(result2 => {
                let new_score = result2.score_comment_react - old_score;
-               console.log("OLD SCORE " + old_score);
-               console.log("NEW SCORE " + new_score);
                UsersStatistic.updateOne(
                   { id_user: result.id_user },
                   { $set: { "score_comment_react": new_score } }
-               ).then(result3 => {
+               ).then(result => {
                   Comments.deleteMany(
                      { id_project: req.body.id_project }
-                  ).then(result4 => {
+                  ).then(result => {
                      res.send({ message: "Project Deleted" });
                   })
-                  
                })
             })
-
          })
       }
    })
 });
 
-//Get image name
+//Get name for image that will be uploaded. this one is to make sure every image has unique name
 app.post('/imageName', async (req, res) => {
    Identifications.find().then(document => {
       console.log(document);
       let lastImageNumber = document[0].last_id;
       let newImageNumber = lastImageNumber + 1;
-      //res.send(newImageNumber.toString());
+
       Identifications.updateOne(
          { _id: '5d9bf08b1c9d440000dedab9' },
          {
@@ -350,21 +326,17 @@ app.post('/deleteComment', async (req, res) => {
       { "_id": mongoose.Types.ObjectId(req.body.id_comment) }
    ).then(result => {
       Projects.findOne({ _id: mongoose.Types.ObjectId(result.id_project) }).then(document => {
-         console.log("Before " + document.score_comment_react);
          let new_score = document.score_comment_react - result.comment_value;
-         console.log("After " + new_score);
          let id_user_update = document.id_user;
-         let that = this;
+         //Update project statistic by decrease score_comment_react field to update their popularity
          Projects.updateOne(
             { _id: mongoose.Types.ObjectId(result.id_project) },
             { $set: { score_comment_react: new_score } }).then(function (result2) {
                console.log("Updated " + new_score);
                console.log("this is user id " + id_user_update);
+               //Update user statistic by decrease score_comment_react field to update their popularity
                UsersStatistic.findOne({ id_user: id_user_update }).then(document2 => {
-                  //console.log("this is score before " + document2.score_comment_react.toString());
                   let total_comment = document2.score_comment_react - result.comment_value;
-                  let that2 = this;
-                  //console.log("this is score after " + total_comment.toString());
                   UsersStatistic.updateOne(
                      { id_user: id_user_update },
                      { $set: { score_comment_react: total_comment } }).then(function (result) {
@@ -390,14 +362,9 @@ app.post('/imageUpload', async (req, res) => {
    });
 
 });
-// Create new project
-app.post('/newProject', async (req, res) => {
-   const newProfile = req.body;
-   await insertProfile(newProfile);
-   res.send({ message: 'New project inserted.' });
-});
 
-// Create new project
+
+// Login function
 app.post('/login', async (req, res) => {
    console.log(req.body);
    res.send(await getProfile());
@@ -434,14 +401,14 @@ startDatabase().then(async () => {
 router.get('/project/', function (req, res) {
 
    project.find({})
-       .then(data => {
-           res.send(data);
-       })
-       .catch(error => {
-           res.status(500).json({
-               error: error
-           });
-       })
+      .then(data => {
+         res.send(data);
+      })
+      .catch(error => {
+         res.status(500).json({
+            error: error
+         });
+      })
 });
 
 router.put('/project/:projectName/likes/:likeCount', function (req, res) {
@@ -450,23 +417,20 @@ router.put('/project/:projectName/likes/:likeCount', function (req, res) {
    count++;
    console.log("here")
    console.log(projectName + " " + count)
-   project.findOneAndUpdate({projectName: projectName}, {$set: {likes: count}}).then(data => {
-       if (data.length < 1) {
-           return res.status(400).json({
-               message: "Project not found",
-           });
-       }
-       else {
-           return res.status(200).json({
-               message: "Project likes updated successfully"
-           });
-       }
+   project.findOneAndUpdate({ projectName: projectName }, { $set: { likes: count } }).then(data => {
+      if (data.length < 1) {
+         return res.status(400).json({
+            message: "Project not found",
+         });
+      }
+      else {
+         return res.status(200).json({
+            message: "Project likes updated successfully"
+         });
+      }
    }).catch(error => {
-       res.status(500).json({
-           error: error
-       });
+      res.status(500).json({
+         error: error
+      });
    })
 });
-
-
-//How can i get all the user details?
