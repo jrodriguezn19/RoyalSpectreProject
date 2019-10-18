@@ -1,3 +1,6 @@
+// Auth service code from Auth0 quickstart guide for Angular2
+// https://auth0.com/docs/quickstart/spa/angular2
+
 import { Injectable } from '@angular/core';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';

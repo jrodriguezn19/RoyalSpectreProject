@@ -1,3 +1,9 @@
+
+// Auth Guard is used so that users must be logged in to see pages which have a route guard assigned
+// to them in the routing module. The profile page is used for this so that unauthenticated users
+// cannot just enter /profile path in the browswer URL to view profile page.
+// based on code from Auth0 quick start guide: https://auth0.com/docs/quickstart/spa/angular2
+
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';

@@ -1,3 +1,8 @@
+
+// This code by user "Bruno Krebs" on auth0.com/blog
+// See https://auth0.com/blog/node-js-and-express-tutorial-building-and-securing-restful-apis/
+// User profile into the instance database
+
 const {getDatabase} = require('./mongo');
 const {ObjectID} = require('mongodb');
 

@@ -217,6 +217,7 @@ app.post('/sendComment', async (req, res) => {
 // check JSON Web Tokens
 // JWT [Only checked for POST, DELETE, PUT endpoint. No authority required for GET request of this app to view]
 // JWT will intercept requests to POST, DELETE, and PUT endpoints
+// Based on code from Auth0 standard config for JWT - https://auth0.com/blog/node-js-and-express-tutorial-building-and-securing-restful-apis/
 const jwtCheck = jwt({
    secret: jwksRsa.expressJwtSecret({
       cache: true,
@@ -467,6 +468,3 @@ router.put('/project/:projectName/likes/:likeCount', function (req, res) {
        });
    })
 });
-
-
-//How can i get all the user details?

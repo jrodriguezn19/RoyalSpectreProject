@@ -10,6 +10,9 @@ import { AuthService } from './auth.service';
 export class AppComponent implements OnInit {
   constructor(private auth: AuthService) {}
   
+
+  // Auth local setup on initialisation
+  // https://auth0.com/docs/quickstart/spa/angular2
   ngOnInit() {
     this.auth.localAuthSetup();
   }
