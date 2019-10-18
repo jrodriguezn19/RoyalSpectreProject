@@ -1,0 +1,35 @@
+<br>
+<br>
+<!-- Example split danger button -->
+<div class="btn-group" float-right>
+    <button type="button" class="btn btn-primary">{{sortBy}}</button>
+    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="" (click)="getProjectSortPopular()">Popular</a>
+      <a class="dropdown-item" href="" (click)="getProjectSortNewest()">Newest</a>
+    </div>
+  </div>
+<br>
+<br>
+<div *ngFor="let project of projects" class="card shadow p-3 mb-5 bg-white rounded" style="margin-bottom: 4%;">
+  <img src="{{project.image_url}}" class="card-img-top" alt="...">
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col">
+        <h5 class="card-title">{{project.user_name}}</h5>
+        <h5 class="text-left">{{project.current_fund}}/{{project.target_fund}}</h5>
+        <p class="card-text"></p>
+       
+      </div>
+      <div class="col text-right">
+        <p class="card-text">Popularity {{project.score_comment_react}}</p>
+        <button href="#" class="btn btn-danger mr-1">Like</button>
+        <button [routerLink]="['/project-detail', project._id]" class="btn btn-primary">See Project</button>
+      </div>
+
+    </div>
+  </div>
+</div>
