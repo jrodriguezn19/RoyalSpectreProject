@@ -20,10 +20,8 @@ export class ProfileComponent implements OnInit {
   
   
   ngOnInit() {
-    
-    let that = this;
+    //Initiate projects user
     this.paramsSub = this.activatedRoute.params.subscribe(params => this.id = params['id']);
-   
     axios.post<{message: string, projects: Project[]}>('http://localhost:8000/projectUser',{ id_user: this.id })
     .then((projectData) => {
       this.projects = projectData.data.projects;
@@ -51,10 +49,9 @@ export class ProfileComponent implements OnInit {
   }
 
   CreateProject(id_user: String, user_name: String, photo_profile: String) {
-    
     let fileName = 'uio';
     let ext = this.selectedFile.name.split('.')[1];
-    
+  
     const fd = new FormData();
     let that = this;
     
@@ -78,8 +75,6 @@ export class ProfileComponent implements OnInit {
       .catch(function (error) {
         console.log(error);
       });
-
-      
   }
   DeleteProject(id_project: String) {
     axios.post('http://localhost:8000/deleteProject', {id_project: id_project})
