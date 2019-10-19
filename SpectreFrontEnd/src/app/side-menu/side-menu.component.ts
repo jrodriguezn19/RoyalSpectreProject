@@ -10,6 +10,7 @@ import { User } from '../user.model';
   styleUrls: ['./side-menu.component.css']
 })
 export class SideMenuComponent implements OnInit {
+  //Initiate needed field
   projects: Project[] = [];
   projectsUpdated =new Subject<Project[]>();
   users: User[] = [];
@@ -17,22 +18,19 @@ export class SideMenuComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    //send request to backend to get 6 most popular projects
     Axios.get<{message: string, projects: Project[]}>('http://localhost:8000/projectPopularSideMenu')
     .then((projectData) => {
       this.projects = projectData.data.projects;
       this.projectsUpdated.next([...this.projects]);
       console.log(this.projects);
-      
     });
+    //send request to backend to get 6 most popular users
     Axios.get<{message: string, users: User[]}>('http://localhost:8000/peoplePopularSideMenu')
     .then((userData) => {
       this.users = userData.data.users;
       this.usersUpdated.next([...this.users]);
       console.log(this.users);
-      
     });
-
-    
   }
-
 }

@@ -9,17 +9,13 @@
         <div *ngFor="let project of projects" class="list-group-flush">
 
             <a class="list-group-item list-group-item-action" [routerLink]="['/project-detail', project._id]">
-                <img src="{{project.image_url}}" class="rounded-sm" width="100%" height="14%"
-                    alt="...">
-            <br>
-            
+                <img src="{{project.image_url}}" class="rounded-sm" width="100%" height="14%" alt="...">
+                <br>
                 <strong class="text-right">{{project.user_name}}</strong>
             </a>
-            
         </div>
     </div>
 </div>
-
 <div class="card mb-3 shadow bg-white rounded">
     <img src="../assets/FundamentalAssets/mostPopular.jpg" class="card-img" alt="...">
     <div class="card-img-overlay">
@@ -28,8 +24,8 @@
     <div class="card-body">
         <div *ngFor="let user of users" class="list-group-flush">
             <a [routerLink]="['/profileAnonymous', user.id_user]" class="list-group-item list-group-item-action">
-                <img src="{{user.image_url}}" class="rounded-sm" style="margin-right:5%;" width="14%" height="14%"    alt="...">
-                
+                <img src="{{user.image_url}}" class="rounded-sm" style="margin-right:5%;" width="14%" height="14%"
+                    alt="...">
                 {{user.user_name}} ({{user.score_comment_react}})
             </a>
         </div>
