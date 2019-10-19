@@ -1,4 +1,4 @@
-
+//Interface that define Users
 export interface User {
     id_user: string;
     image_url: string;

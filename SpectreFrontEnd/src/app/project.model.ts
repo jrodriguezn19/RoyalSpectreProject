@@ -1,4 +1,4 @@
-
+//Interface that defines projects
 export interface Project {
     id_project: string;
     id_user: string;

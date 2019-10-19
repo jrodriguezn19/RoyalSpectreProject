@@ -46,7 +46,6 @@ export class ProfileAnonymousComponent implements OnInit {
     Axios.post('http://localhost:8000/detailUser',{ id_user: this.id })
     .then(userData => {
       this.users = userData.data;
-      //this.userUpdated.next([...this.users]);
       console.log(userData.data);
     });
   }

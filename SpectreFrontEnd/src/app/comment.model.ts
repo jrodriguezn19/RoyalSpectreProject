@@ -1,3 +1,4 @@
+//Interface that defines Comments 
 export interface Comment {
     id_project: String;
     id_user: String;

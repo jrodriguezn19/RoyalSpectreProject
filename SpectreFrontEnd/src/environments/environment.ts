@@ -1,5 +1,5 @@
 /**
- * Configuration required to make use of Firebase API
+ * Configuration of Firebase API
  */
 export const environment = {
   production: false,
