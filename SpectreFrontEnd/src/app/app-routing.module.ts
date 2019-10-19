@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
-import { HomeComponent } from './home/home.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { CallbackComponent } from './callback/callback.component';
 import { ProfileComponent } from './profile/profile.component';
