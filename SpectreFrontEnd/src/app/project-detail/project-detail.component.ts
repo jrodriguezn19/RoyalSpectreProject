@@ -43,14 +43,13 @@ export class ProjectDetailComponent implements OnInit {
     axios.post('http://localhost:8000/selectedProject', { id_project: this.id })
     .then(function (response) {
       console.log(response.data['message']);
-      //this.project = response.data.project;
       that.project = response.data.project;
     })
     .catch(function (error) {
       console.log(error);
     });
   }
-  //sendComment
+
   getComment(){
     axios.post<{ message: string, comments: Comment[] }>('http://localhost:8000/retrieveComments', { id_project: this.id })
       .then((commentData) => {
@@ -74,7 +73,6 @@ export class ProjectDetailComponent implements OnInit {
     this.selectedFile = <File>event.target.files[0];
   }
   DeleteComment(id_comment: String){
-    //deleteComment
     axios.post('http://localhost:8000/deleteComment', { id_comment: id_comment })
           .then(function (response) {
             console.log(response.data['message']);
@@ -96,7 +94,6 @@ export class ProjectDetailComponent implements OnInit {
           });
   }
   SendComment(id_user: String, user_name: String, profile_picture: String) {
-    //alert(Object.values(this.project)[0]);
     console.log(this.project[0]._id);
 
     let fileName = 'file';
