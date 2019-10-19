@@ -13,6 +13,7 @@ import { User } from '../user.model';
 })
 export class ProfileAnonymousComponent implements OnInit {
 
+  //Initiate desired field
   id: any;
   paramsSub: any;
   projects: Project[] = [];
@@ -22,18 +23,19 @@ export class ProfileAnonymousComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
-    let that = this;
+    //Initiate projects user
+    //Get id from previous page
     this.paramsSub = this.activatedRoute.params.subscribe(params => this.id = params['id']);
-   
-    
-    //#1 start
+    //When user click, refresh the page
     this.router.events.pipe(
       filter((event: RouterEvent) => event instanceof NavigationEnd)
     ).subscribe(() => {
+      //Fetch projects and user
       this.getProject();
       this.getUser();
     });
   }
+  //a request function to get projects from the Backend
   getProject(){
     Axios.post<{message: string, projects: Project[]}>('http://localhost:8000/projectUser',{ id_user: this.id })
     .then((projectData) => {
@@ -42,6 +44,7 @@ export class ProfileAnonymousComponent implements OnInit {
       console.log(this.projects);
     });
   }
+  //a request function to get user from the Backend
   getUser(){
     Axios.post('http://localhost:8000/detailUser',{ id_user: this.id })
     .then(userData => {
