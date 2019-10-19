@@ -27,6 +27,7 @@ export class ProfileAnonymousComponent implements OnInit {
     //Get id from previous page
     this.paramsSub = this.activatedRoute.params.subscribe(params => this.id = params['id']);
     //When user click, refresh the page
+    //#1 This code by Simon McClive on Medium for reload the same url
     this.router.events.pipe(
       filter((event: RouterEvent) => event instanceof NavigationEnd)
     ).subscribe(() => {
