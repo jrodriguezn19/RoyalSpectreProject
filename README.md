@@ -57,14 +57,13 @@
 - HTTP requests/Using Restful API: Open up postman  > run get, post, put, delete as you will. NB: authorisation token required to run post, put, and delete requests. Access new token here: https://manage.auth0.com/dashboard/au/dev-q39f5c5h/apis/5d6b220375c40e076d471d4d/test
 
 **Team Member Roles**
-
+-  George: Front-end/Back-end developer
  - Jayden: PM & Back-end
  - Ivan: Front-end & UI designer
  - Yogesh: Front-end/Back-end developer
- - George: Front-end/Back-end developer
+ 
 
 **Git Protocols**
-
  - Branch early and often
  - Let the team know on trello discussion card what you're working on and when ; https://trello.com/b/J3xMvp6v/royal-spectre-assignment-3
  
