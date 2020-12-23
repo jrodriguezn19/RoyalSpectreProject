@@ -7,10 +7,11 @@
 -   Yogesh Adhikari.
 
 **Technologies Used**
-- **Angular** and Bootstrap is used to develop the web app.
+- **Angular** and Bootstrap is used for the Frontend.
+- **Node.JS** is used for the Backend.
+- **MongoDB** is used to store the user's data except images.
 - Auth0 provides the login module to authenticate users.
 - Firebase Storage provides the service to host the user's images.
-- **MongoDB** is used to store the user's data except images.
 
 **Vision**
 
