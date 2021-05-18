@@ -1,8 +1,8 @@
 ## RoyalSpectre Social Network
 ![MainPage1.png](https://github.com/jrodriguez19/RoyalSpectreProject/blob/master/SpectreFrontEnd/screenshots/MainPage1.png?raw=true)
 **Authors**
--   Jorge Rodriguez Nocua (George)
--   Jayden Pilling
+-   Jorge Rodriguez Nocua. (George)
+-   Jayden Pilling.
 -   Giovanni Tjahjono.
 -   Yogesh Adhikari.
 
@@ -70,7 +70,7 @@
 
 -   George: Front-end/Back-end developer
 -   Jayden: PM & Back-end
--   Ivan: Front-end & UI designer
+-   Giovanni: Front-end & UI designer
 -   Yogesh: Front-end/Back-end developer
 
 **Git Protocols**
