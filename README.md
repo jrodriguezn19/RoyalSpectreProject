@@ -72,10 +72,10 @@
 
 **Team Member Roles**
 
--   George: Front-end/Back-end developer
+-   George: Frontend/Backend developer
 -   Jayden: PM & Back-end
--   Giovanni: Front-end & UI designer
--   Yogesh: Front-end/Back-end developer
+-   Giovanni: Frontend & UI designer
+-   Yogesh: Frontend/Backend developer
 
 **Git Protocols**
 
